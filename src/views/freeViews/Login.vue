@@ -5,7 +5,7 @@
         <img src="../../assets/calculator-icon.png">
       </div>
 
-      <h2 class="text-center mb-10">Iniciar sesión</h2>
+      <h2 class="text-center mb-5">Iniciar sesión</h2>
 
       <v-text-field
           label="Correo electrónico"
