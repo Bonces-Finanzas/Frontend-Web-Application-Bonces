@@ -1,37 +1,34 @@
 <template>
   <v-app>
-    <v-app-bar app>
-      <v-app-bar-title class="text-h5">
-        Bonces
-      </v-app-bar-title>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        to="/auth"
-        exact
-      >
-        Calculator
-      </v-btn>
-      <v-btn
-        to="/auth/history"
-      >
-        History
-      </v-btn>
-      <v-btn
-        to="/auth/my-profile"
-      >
-        My Profile
-      </v-btn>
-      <v-btn
-        to="/"
-      >
-        Logout
-      </v-btn>
-    </v-app-bar>
+    <NavBar v-bind:items="navigationItems" />
 
     <v-main>
       <router-view></router-view>
     </v-main>
+
+    <Footer />
   </v-app>  
 </template>
+
+<script>
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
+
+export default {
+  name: "AuthViews",
+  data() {
+    return {
+      navigationItems: [
+        { name: "Calculator", path: "/auth", action: () => {} },
+        { name: "History", path: "/auth/history", action: () => {} },
+        { name: "My profile", path: "/auth/my-profile", action: () => {} },
+        { name: "Logout", path: "/", action: () => {} }
+      ]
+    }
+  },
+  components: {
+    NavBar,
+    Footer
+  }
+}
+</script>
