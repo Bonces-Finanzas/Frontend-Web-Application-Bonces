@@ -1,10 +1,10 @@
 <template>
   <v-container>
-    Login
+    Iniciar sesión
 
     <v-form>
       <v-btn to="auth">
-        Login
+        Iniciar sesión
       </v-btn>
     </v-form>
   </v-container>

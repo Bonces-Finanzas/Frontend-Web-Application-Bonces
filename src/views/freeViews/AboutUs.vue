@@ -1,6 +1,6 @@
 <template>
   <v-container class="about-us">
-    About Us
+    Nosotros
   </v-container>
 </template>
 

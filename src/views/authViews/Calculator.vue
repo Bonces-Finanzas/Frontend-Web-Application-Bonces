@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    Calculator
+    Calculadora
   </v-container>
 </template>
 

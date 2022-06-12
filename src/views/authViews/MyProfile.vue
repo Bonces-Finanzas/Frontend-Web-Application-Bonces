@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    My Profile
+    Mi perfil
   </v-container>
 </template>
 

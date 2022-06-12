@@ -19,10 +19,10 @@ export default {
   data() {
     return {
       navigationItems: [
-        { name: "Calculator", path: "/auth", action: () => {} },
-        { name: "History", path: "/auth/history", action: () => {} },
-        { name: "My profile", path: "/auth/my-profile", action: () => {} },
-        { name: "Logout", path: "/", action: () => {} }
+        { name: "Calculatora", path: "/auth", action: () => {} },
+        { name: "Historial", path: "/auth/history", action: () => {} },
+        { name: "Mi perfil", path: "/auth/my-profile", action: () => {} },
+        { name: "Cerrar sesión", path: "/", action: () => {} }
       ]
     }
   },

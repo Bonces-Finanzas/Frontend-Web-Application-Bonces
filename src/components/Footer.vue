@@ -4,13 +4,13 @@
       <strong>Bonces</strong>
     </span>
     <span class="mx-5">|</span>
-    <span>All rights reserved</span>
+    <span>Todos los derechos reservados</span>
 
     <a ref="#" class="ml-auto">
-      Legal warning
+      Avisos legales
     </a>
     <a ref="#" class="ml-5">
-      Privacy Policy
+      Política de privacidad
     </a>
   </v-footer>
 </template>

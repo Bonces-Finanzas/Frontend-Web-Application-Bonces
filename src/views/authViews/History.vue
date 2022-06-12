@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    History
+    Historial
   </v-container>
 </template>
 

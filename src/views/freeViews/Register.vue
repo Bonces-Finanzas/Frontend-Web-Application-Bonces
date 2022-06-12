@@ -1,10 +1,10 @@
 <template>
   <v-container>
-    Register
+    Registrarse
 
     <v-form>
       <v-btn to="auth">
-        Register
+        Registrarse
       </v-btn>
     </v-form>
   </v-container>

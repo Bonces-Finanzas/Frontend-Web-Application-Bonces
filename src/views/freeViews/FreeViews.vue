@@ -19,9 +19,9 @@ export default {
   data() {
     return {
       navigationItems: [
-        { name: "About Us", path: "/", action: () => {} },
-        { name: "Login", path: "/login", action: () => {} },
-        { name: "Register", path: "/register", action: () => {} }
+        { name: "Nosotros", path: "/", action: () => {} },
+        { name: "Iniciar sesión", path: "/login", action: () => {} },
+        { name: "Registrarse", path: "/register", action: () => {} }
       ]
     }
   },
