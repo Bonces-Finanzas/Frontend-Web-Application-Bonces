@@ -6,7 +6,7 @@
         class="col-12 col-sm-8 col-md-5 mx-auto flex"
     >
       <div class="icon mx-auto mb-5 img-container">
-        <img src="../../assets/calculator-icon.png">
+        <img alt="calculator" src="../../assets/calculator-icon.png">
       </div>
 
       <h2 class="text-center mb-10">Iniciar sesión</h2>
@@ -31,7 +31,7 @@
       ></v-text-field>
 
       <v-btn
-          v-if="!useAuthStore.loading"
+          v-if="!authStore.loading"
           color="secondary"
           class="py-5 mb-5"
           block
@@ -64,7 +64,7 @@
     </v-form>
 
     <v-snackbar
-        v-model="useAuthStore.error"
+        v-model="authStore.error"
         :timeout="timeout"
         color="red accent-2"
     >
@@ -75,7 +75,7 @@
             color="accent"
             text
             v-bind="attrs"
-            @click="useAuthStore.error = false"
+            @click="authStore.error = false"
         >
           Close
         </v-btn>
@@ -105,12 +105,12 @@ export default {
         }
       },
       timeout: 3000,
-      useAuthStore: useAuthStore()
+      authStore: useAuthStore()
     }
   },
   methods: {
     async onSubmit() {
-      await this.useAuthStore.login(this.form.email, this.form.password);
+      await this.authStore.login(this.form.email, this.form.password);
     },
     initForm() {
       this.form = { email: "", password: "", isValid: false, showPassword: false };

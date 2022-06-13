@@ -36,7 +36,9 @@ export const useAuthStore = defineStore({
             this.error = false
             await UserService.register(user)
                 .then(response => {
-                    console.log(response);
+                    this.user = response.data;
+                    localStorage.setItem(USER, JSON.stringify(response.data))
+                    router.push("/auth");
                 })
                 .catch(e => {
                     console.log(e);
@@ -47,8 +49,11 @@ export const useAuthStore = defineStore({
         async update(id, user) {
             this.loading = true;
             this.error = false
-            this.user = await UserService.update(id, user)
-                .then(response => response.data)
+            await UserService.update(id, user)
+                .then(response => {
+                    this.user = response.data
+                    localStorage.setItem(USER, JSON.stringify(response.data))
+                })
                 .catch(e => {
                     console.log(e);
                     this.error = true
