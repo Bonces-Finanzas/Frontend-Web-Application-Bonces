@@ -1,6 +1,6 @@
 import http from './http-common'
 
-class scheduleService {
+class ScheduleService {
     getById(id) {
         return http.get(`/schedule/${ id }`);
     }
@@ -17,3 +17,5 @@ class scheduleService {
         return http.delete(`/schedule/${ id }`);
     }
 }
+
+export default new ScheduleService;

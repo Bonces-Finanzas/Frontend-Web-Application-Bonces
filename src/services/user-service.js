@@ -17,3 +17,5 @@ class UserService {
         return http.delete(`/users/${ id }`);
     }
 }
+
+export default new UserService;
