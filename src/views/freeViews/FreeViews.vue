@@ -1,37 +1,33 @@
 <template>
   <v-app>
-    <v-app-bar app>
-      <v-app-bar-title to="/" class="text-h5">
-        Bonces
-      </v-app-bar-title>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        to="/"
-      >
-        About Us
-      </v-btn>
-      <v-btn
-        to="/login"
-      >
-        Login
-      </v-btn>
-      <v-btn
-        to="/register"
-      >
-        Register
-      </v-btn>
-    </v-app-bar>
+    <NavBar v-bind:items="navigationItems" />
 
     <v-main>
       <router-view></router-view>
     </v-main>
+
+    <Footer />
   </v-app>  
 </template>
 
 <script>
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
+
 export default {
-  name: "FreeViews"
+  name: "FreeViews",
+  data() {
+    return {
+      navigationItems: [
+        { name: "Nosotros", path: "/", action: () => {} },
+        { name: "Iniciar sesión", path: "/login", action: () => {} },
+        { name: "Registrarse", path: "/register", action: () => {} }
+      ]
+    }
+  },
+  components: {
+    NavBar,
+    Footer
+  }
 }
 </script>

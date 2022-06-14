@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    About Us
+  <v-container class="about-us">
+    Nosotros
   </v-container>
 </template>
 
@@ -9,4 +9,10 @@
 export default {
   name: "AboutUs"
 }
-</script> 
+</script>
+
+<style scoped>
+  .about-us {
+    height: 1000px;
+  }
+</style>
