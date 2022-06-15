@@ -11,8 +11,10 @@
             </v-col>
             <v-col cols="8">
               <v-text-field
-
+                  v-model="form.nominalValue"
+                  color="accent"
                   prefix="s/"
+                  solo
               ></v-text-field>
             </v-col>
           </v-row>
@@ -23,7 +25,10 @@
             </v-col>
             <v-col cols="8">
               <v-text-field
+                  v-model="form.commercialValue"
+                  color="accent"
                   prefix="s/"
+                  solo
               ></v-text-field>
             </v-col>
           </v-row>
@@ -34,7 +39,9 @@
             </v-col>
             <v-col cols="8">
               <v-text-field
-
+                  v-model="form.numberOfYears"
+                  color="accent"
+                  solo
               ></v-text-field>
             </v-col>
           </v-row>
@@ -52,7 +59,7 @@
                   item-value="abbr"
                   persistent-hint
                   return-object
-                  single-line
+                  solo
               ></v-select>
             </v-col>
           </v-row>
@@ -70,7 +77,7 @@
                   item-value="abbr"
                   persistent-hint
                   return-object
-                  single-line
+                  solo
               ></v-select>
             </v-col>
           </v-row>
@@ -88,7 +95,7 @@
                   item-value="abbr"
                   persistent-hint
                   return-object
-                  single-line
+                  solo
               ></v-select>
             </v-col>
           </v-row>
@@ -99,8 +106,10 @@
             </v-col>
             <v-col cols="8">
               <v-text-field
-
+                  v-model="form.interestRate"
+                  color="accent"
                   suffix="%"
+                  solo
               ></v-text-field>
             </v-col>
           </v-row>
@@ -111,8 +120,10 @@
             </v-col>
             <v-col cols="8">
               <v-text-field
-
+                  v-model="form.annualDiscountRate"
+                  color="accent"
                   suffix="%"
+                  solo
               ></v-text-field>
             </v-col>
           </v-row>
@@ -123,8 +134,10 @@
             </v-col>
             <v-col cols="8">
               <v-text-field
-
+                  v-model="form.incomeTax"
+                  color="accent"
                   suffix="%"
+                  solo
               ></v-text-field>
             </v-col>
           </v-row>
@@ -181,9 +194,75 @@
         </v-col >
         <v-col class="col-12 col-sm-8 col-md-5 mx-auto flex">
           <h2 class="text-center mb-10">Datos de los costes</h2>
+          <v-row>
+            <v-col cols="4">
+              <v-subheader class="font-weight-medium">% Prima</v-subheader>
+            </v-col>
+            <v-col cols="8">
+              <v-text-field
+
+                  v-model="form.premium"
+                  color="accent"
+                  suffix="%"
+                  solo
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="4">
+              <v-subheader class="font-weight-medium">% Estructuración</v-subheader>
+            </v-col>
+            <v-col cols="8">
+              <v-text-field
+
+                  v-model="form.structuring"
+                  color="accent"
+                  suffix="%"
+                  solo
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="4">
+              <v-subheader class="font-weight-medium">% Colocación</v-subheader>
+            </v-col>
+            <v-col cols="8">
+              <v-text-field
+
+                  v-model="form.collocation"
+                  color="accent"
+                  suffix="%"
+                  solo
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="4">
+              <v-subheader class="font-weight-medium">Cavali</v-subheader>
+            </v-col>
+            <v-col cols="8">
+              <v-text-field
+                  v-model="form.cavali"
+                  color="accent"
+                  suffix="%"
+                  solo
+              ></v-text-field>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
+      <v-btn
+          align="center"
+          color="secondary"
+          class="py-5 mb-5"
+          x-large
+          :style="{left: '50%', transform:'translateX(-50%)'}"
+               >
+        Calcular
+      </v-btn
+       >
     </v-container>
+
   </v-form>
 </template>
 
@@ -195,7 +274,7 @@ export default {
     return {
       form: {
         nominalValue:0,
-        valorCommercial:0,
+        commercialValue:0,
         numberOfYears:0,
         couponFrequency: {state: '', abbr: ''},
         couponFrequencyItems: [
@@ -230,8 +309,17 @@ export default {
         issueDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         issueDateMenu: false,
 
+        //Datos de los costes
+        premium:0,
+        structuring:0,
+        collocation:0,
+        floatation:0,
+        cavali:0
       }
     }
   },
 }
 </script>
+<style>
+
+</style>
