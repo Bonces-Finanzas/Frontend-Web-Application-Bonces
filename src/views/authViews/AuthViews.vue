@@ -1,5 +1,5 @@
 <template>
-  <v-app v-if="this.useAuthStore.user">
+  <v-app v-if="this.authStore.user">
     <NavBar v-bind:items="navigationItems" />
 
     <v-main>
@@ -24,20 +24,25 @@ import { useAuthStore } from "@/store/useAuthStore";
 
 export default {
   name: "AuthViews",
+  components: {
+    NavBar,
+    Footer
+  },
   data() {
     return {
       navigationItems: [
         { name: "Calculatora", path: "/auth", action: () => {} },
         { name: "Historial", path: "/auth/history", action: () => {} },
         { name: "Mi perfil", path: "/auth/my-profile", action: () => {} },
-        { name: "Cerrar sesión", path: "/", action: () => {} }
+        { name: "Cerrar sesión", path: "/", action: this.logout }
       ],
-      useAuthStore: useAuthStore()
+      authStore: useAuthStore()
     }
   },
-  components: {
-    NavBar,
-    Footer
+  methods: {
+    logout() {
+      this.authStore.logout();
+    }
   }
 }
 </script>
