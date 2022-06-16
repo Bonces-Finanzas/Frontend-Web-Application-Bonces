@@ -1,4 +1,4 @@
-import {defineStore} from "pinia/dist/pinia.prod";
+import { defineStore } from "pinia";
 import ScheduleService from "@/services/schedule-service";
 
 const SCHEDULE = "schedule";

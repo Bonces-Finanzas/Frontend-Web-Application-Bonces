@@ -267,6 +267,7 @@
 </template>
 
 <script>
+import { useScheduleStore } from "@/store/useScheduleStore";
 
 export default {
   name: "Calculator",
@@ -315,7 +316,8 @@ export default {
         collocation:0,
         floatation:0,
         cavali:0
-      }
+      },
+      scheduleStore: useScheduleStore()
     }
   },
 }
