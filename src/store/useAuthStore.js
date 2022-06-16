@@ -29,7 +29,7 @@ export const useAuthStore = defineStore({
         },
         logout() {
           this.user = null;
-          localStorage.removeItem(USER);
+          localStorage.clear();
         },
         async register(user) {
             this.loading = true;
