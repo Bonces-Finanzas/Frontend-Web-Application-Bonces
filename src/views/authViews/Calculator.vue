@@ -1,5 +1,9 @@
 <template>
-  <v-form>
+  <v-form
+  ref="form"
+  v-model="isValid"
+  lazy-validation
+  >
     <v-container fluid>
       <h1 class="text-left mb-10">Ingreso de Datos</h1>
       <v-row>
@@ -11,10 +15,11 @@
             </v-col>
             <v-col cols="8">
               <v-text-field
-                  v-model="form.nominalValue"
+                  v-model="form.boundData.nominalValue"
                   color="accent"
                   prefix="s/"
                   solo
+                  :rules="[rules.required,rules.isPositive]"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -25,10 +30,11 @@
             </v-col>
             <v-col cols="8">
               <v-text-field
-                  v-model="form.commercialValue"
+                  v-model="form.boundData.commercialValue"
                   color="accent"
                   prefix="s/"
                   solo
+                  :rules="[rules.required,rules.isPositive]"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -39,9 +45,10 @@
             </v-col>
             <v-col cols="8">
               <v-text-field
-                  v-model="form.numberOfYears"
+                  v-model="form.boundData.years"
                   color="accent"
                   solo
+                  :rules="[rules.required,rules.isInt,rules.isPositive]"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -52,32 +59,43 @@
             </v-col>
             <v-col cols="8">
               <v-select
-                  v-model="form.couponFrequency"
-                  :hint="`${form.couponFrequency.state}, ${form.couponFrequency.abbr}`"
-                  :items="form.couponFrequencyItems"
-                  item-text="state"
-                  item-value="abbr"
+                  v-model="form.boundData.couponFrequency"
+                  :items="items.couponFrequencyItems"
                   persistent-hint
                   return-object
                   solo
+                  :rules=[rules.required]
               ></v-select>
             </v-col>
           </v-row>
 
           <v-row>
             <v-col cols="4">
-              <v-subheader class="font-weight-medium">Frecuencia del cupón</v-subheader>
+              <v-subheader class="font-weight-medium">Dias por año</v-subheader>
+            </v-col>
+            <v-col cols="8">
+              <v-text-field
+                  v-model="form.boundData.daysYears"
+                  color="accent"
+                  solo
+                  :rules="[rules.required,rules.isInt,rules.isPositive]"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+
+          <v-row>
+            <v-col cols="4">
+              <v-subheader class="font-weight-medium">Tipo de tasa de interes</v-subheader>
             </v-col>
             <v-col cols="8">
               <v-select
-                  v-model="form.interestRateType"
-                  :hint="`${form.interestRateType.state}, ${form.interestRateType.abbr}`"
-                  :items="form.interestRateTypeItems"
-                  item-text="state"
-                  item-value="abbr"
+                  v-model="form.boundData.typeInterestRate"
+                  :items="items.interestRateTypeItems"
                   persistent-hint
                   return-object
                   solo
+                  :rules="[rules.required]"
               ></v-select>
             </v-col>
           </v-row>
@@ -88,14 +106,13 @@
             </v-col>
             <v-col cols="8">
               <v-select
-                  v-model="form.capitalization"
-                  :hint="`${form.capitalization.state}, ${form.capitalization.abbr}`"
-                  :items="form.capitalizationItems"
+                  v-model="form.boundData.capitalization"
+                  :items="items.capitalizationItems"
                   item-text="state"
                   item-value="abbr"
-                  persistent-hint
                   return-object
                   solo
+                  :rules="[rules.required]"
               ></v-select>
             </v-col>
           </v-row>
@@ -106,10 +123,11 @@
             </v-col>
             <v-col cols="8">
               <v-text-field
-                  v-model="form.interestRate"
+                  v-model="form.boundData.interestRate"
                   color="accent"
                   suffix="%"
                   solo
+                  :rules="[rules.required,rules.isPositive]"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -120,10 +138,11 @@
             </v-col>
             <v-col cols="8">
               <v-text-field
-                  v-model="form.annualDiscountRate"
+                  v-model="form.boundData.annualDiscountRate"
                   color="accent"
                   suffix="%"
                   solo
+                  :rules="[rules.required,rules.isPositive]"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -134,10 +153,11 @@
             </v-col>
             <v-col cols="8">
               <v-text-field
-                  v-model="form.incomeTax"
+                  v-model="form.boundData.incomeTax"
                   color="accent"
                   suffix="%"
                   solo
+                  :rules="[rules.required,rules.isPositive]"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -150,23 +170,24 @@
                   ref="menu"
                   v-model="form.issueDateMenu"
                   :close-on-content-click="false"
-                  :return-value.sync="form.issueDate"
+                  :return-value.sync="form.issue"
                   transition="scale-transition"
                   offset-y
                   min-width="auto"
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                      v-model="form.issueDate"
-                      label="Click aquí"
+                      v-model="form.boundData.issue"
                       prepend-icon="mdi-calendar"
                       readonly
                       v-bind="attrs"
                       v-on="on"
+                      solo
+                      :rules="[rules.required]"
                   ></v-text-field>
                 </template>
                 <v-date-picker
-                    v-model="form.issueDate"
+                    v-model="form.boundData.issue"
                     no-title
                     scrollable
                 >
@@ -181,7 +202,7 @@
                   <v-btn
                       text
                       color="primary"
-                      @click="$refs.menu.save(form.issueDate)"
+                      @click="$refs.menu.save(form.boundData.issue)"
                   >
                     OK
                   </v-btn>
@@ -201,10 +222,11 @@
             <v-col cols="8">
               <v-text-field
 
-                  v-model="form.premium"
+                  v-model="form.initialCostData.premium"
                   color="accent"
                   suffix="%"
                   solo
+                  :rules="[rules.required,rules.isPositive]"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -214,11 +236,11 @@
             </v-col>
             <v-col cols="8">
               <v-text-field
-
-                  v-model="form.structuring"
+                  v-model="form.initialCostData.structuring"
                   color="accent"
                   suffix="%"
                   solo
+                  :rules="[rules.required,rules.isPositive]"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -229,10 +251,11 @@
             <v-col cols="8">
               <v-text-field
 
-                  v-model="form.collocation"
+                  v-model="form.initialCostData.collocation"
                   color="accent"
                   suffix="%"
                   solo
+                  :rules="[rules.required,rules.isPositive]"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -242,21 +265,24 @@
             </v-col>
             <v-col cols="8">
               <v-text-field
-                  v-model="form.cavali"
+                  v-model="form.initialCostData.cavali"
                   color="accent"
                   suffix="%"
                   solo
+                  :rules="[rules.required,rules.isPositive]"
               ></v-text-field>
             </v-col>
           </v-row>
         </v-col>
       </v-row>
       <v-btn
+          :disabled="!isValid"
           align="center"
           color="secondary"
           class="py-5 mb-5"
           x-large
           :style="{left: '50%', transform:'translateX(-50%)'}"
+          @click="validate"
                >
         Calcular
       </v-btn
@@ -274,51 +300,67 @@ export default {
   data () {
     return {
       form: {
-        nominalValue:0,
-        commercialValue:0,
-        numberOfYears:0,
-        couponFrequency: {state: '', abbr: ''},
-        couponFrequencyItems: [
-          {state: 'Diaria', abbr: '1 día'},
-          {state: 'Mensual', abbr: '30 días'},
-          {state: 'Bimestral', abbr: '60 días'},
-          {state: 'Trimestral', abbr: '90 días'},
-          {state: 'Semestral', abbr: '180 días'},
-          {state: 'Anual', abbr: '360 días'},
-        ],
-
-        daysforYears:0,
-
-        interestRateType:{state: '', abbr:''},
+        date:(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        boundData: {
+          nominalValue: 0,
+          commercialValue: 0,
+          years: 0,
+          couponFrequency: '',
+          daysYears: 0,
+          typeInterestRate: '',
+          capitalization: '',
+          interestRate: 0,
+          annualDiscountRate: 0,
+          incomeTax: 0,
+          issue: '',
+          gracePeriod: 0,
+          typeOfGracePeriod: 'S',
+        },
+        initialCostData:{
+          premium: 0,
+          structuring: 0,
+          collocation: 0,
+          floatation: 0,
+          cavali: 0
+        }
+      },
+      items :{
         interestRateTypeItems: [
-          {state: 'Nominal', abbr: 'n'},
-          {state: 'Efectiva', abbr: 'e'},
+          'Nominal',
+          'Efectiva',
         ],
-
-        capitalization:{state: '', abbr:''},
+        couponFrequencyItems: [
+          'Diaria',
+          'Mensual',
+          'Bimestral',
+          'Trimestral',
+          'Semestral',
+          'Anual',
+        ],
         capitalizationItems: [
-          {state: 'Diaria', abbr: '1 días'},
-          {state: 'Mensual', abbr: '30 días'},
-          {state: 'Bimestral', abbr: '60 días'},
-          {state: 'Trimestral', abbr: '90 días'},
-          {state: 'Semestral', abbr: '180 días'},
-          {state: 'Anual', abbr: '360 días'},
+          'Diaria',
+          'Mensual',
+          'Bimestral',
+          'Trimestral',
+          'Semestral',
+          'Anual',
         ],
-        interestRate:0,
-        annualDiscountRate:0,
-        incomeTax:0,
-        issueDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-        issueDateMenu: false,
+      },
 
-        //Datos de los costes
-        premium:0,
-        structuring:0,
-        collocation:0,
-        floatation:0,
-        cavali:0
+      isValid: false,
+      issueDateMenu: false,
+      rules:{
+        required: v => !!v || 'Requerido',
+        isInt: v => Number.isInteger(Number(v)) || 'Entero requerido',
+        isPositive:v => Number(v) > 0 || 'Número positivo requerido',
       },
       scheduleStore: useScheduleStore()
     }
+  },
+  methods: {
+    validate () {
+      this.$refs.form.validate()
+    },
   },
 }
 </script>
