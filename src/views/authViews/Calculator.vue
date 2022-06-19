@@ -311,6 +311,7 @@
 
 <script>
 import { useScheduleStore } from "@/store/useScheduleStore";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export default {
   name: "Calculator",
@@ -374,7 +375,8 @@ export default {
       },
       timeout: 3000,
       userId: 0,
-      scheduleStore: useScheduleStore()
+      scheduleStore: useScheduleStore(),
+      authStore: useAuthStore()
     }
   },
   methods: {
@@ -385,8 +387,8 @@ export default {
       else this.scheduleStore.error=true
     },
     async onSubmit() {
-      this.userId = JSON.parse(localStorage.getItem("auth")).id
-      await this.scheduleStore.createSchedule(this.userId,this.form.scheduleData);
+      this.userId = this.authStore.user.id;
+      await this.scheduleStore.createSchedule(this.userId, this.form.scheduleData);
     },
   },
 }

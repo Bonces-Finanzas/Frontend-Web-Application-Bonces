@@ -130,7 +130,7 @@ export default {
         ],
         password: [
           v => !!v || "Requerido",
-          v => (v && v.length >= 8) || 'Min 8 characters',
+          v => (v && v.length >= 8) || 'Mínimo 8 caracteres',
           v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(v) || 'La constraseña debe tener al menos una letra mayúscula y un número'
         ],
       },
