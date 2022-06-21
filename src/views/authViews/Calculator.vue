@@ -62,7 +62,6 @@
                     v-model="form.scheduleData.boundData.couponFrequency"
                     :items="form.items.couponFrequencyItems"
                     persistent-hint
-                    return-object
                     solo
                     :rules=[rules.required]
                 ></v-select>
@@ -75,7 +74,7 @@
               </v-col>
               <v-col cols="8">
                 <v-text-field
-                    v-model="form.scheduleData.boundData.daysYears"
+                    v-model="form.scheduleData.boundData.daysYear"
                     color="accent"
                     solo
                     :rules="[rules.required,rules.isInt,rules.isPositive]"
@@ -93,7 +92,6 @@
                     v-model="form.scheduleData.boundData.typeInterestRate"
                     :items="form.items.interestRateTypeItems"
                     persistent-hint
-                    return-object
                     solo
                     :rules="[rules.required]"
                 ></v-select>
@@ -110,7 +108,6 @@
                     :items="form.items.capitalizationItems"
                     item-text="state"
                     item-value="abbr"
-                    return-object
                     solo
                     :rules="[rules.required]"
                 ></v-select>
@@ -123,7 +120,7 @@
               </v-col>
               <v-col cols="8">
                 <v-text-field
-                    v-model="form.scheduleData.interestRate"
+                    v-model="form.scheduleData.boundData.interestRate"
                     color="accent"
                     suffix="%"
                     solo
@@ -259,6 +256,22 @@
                 ></v-text-field>
               </v-col>
             </v-row>
+
+            <v-row>
+              <v-col cols="4">
+                <v-subheader class="font-weight-medium">Flotacion</v-subheader>
+              </v-col>
+              <v-col cols="8">
+                <v-text-field
+                    v-model="form.scheduleData.initialCostData.floatation"
+                    color="accent"
+                    suffix="%"
+                    solo
+                    :rules="[rules.required,rules.isPositive]"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
             <v-row>
               <v-col cols="4">
                 <v-subheader class="font-weight-medium">Cavali</v-subheader>
@@ -273,6 +286,7 @@
                 ></v-text-field>
               </v-col>
             </v-row>
+
           </v-col>
         </v-row>
         <v-btn
@@ -280,7 +294,7 @@
             color="secondary"
             class="py-5 mb-5"
             x-large
-            @click="validate"
+            @click="onSubmit"
             :style="{left: '50%', transform:'translateX(-50%)'}"
                  >
           Calcular
@@ -319,50 +333,52 @@ export default {
     return {
       form: {
         scheduleData: {
-          date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-          boundData: {
-            nominalValue: 0,
-            commercialValue: 0,
-            years: 0,
+            date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+            boundData: {
+            nominalValue: '',
+            commercialValue: '',
+            years: '',
             couponFrequency: '',
-            daysYears: 0,
+            daysYear: '',
             typeInterestRate: '',
             capitalization: '',
-            interestRate: 0,
-            annualDiscountRate: 0,
-            incomeTax: 0,
+            interestRate: '',
+            annualDiscountRate: '',
+            incomeTax: '',
             issue: '',
-            gracePeriod: 0,
+            gracePeriod: '',
             typeOfGracePeriod: 'S',
           },
-          initialCostData: {
-            premium: 0,
-            structuring: 0,
-            collocation: 0,
-            floatation: 0,
-            cavali: 0
+            initialCostData: {
+            premium: '',
+            structuring: '',
+            collocation: '',
+            floatation: '',
+            cavali: ''
           }
         },
         items :{
           interestRateTypeItems: [
-            'Nominal',
-            'Efectiva',
+             'EFFECTIVE',
+             'NOMINAL'
           ],
           couponFrequencyItems: [
-            'Diaria',
-            'Mensual',
-            'Bimestral',
-            'Trimestral',
-            'Semestral',
-            'Anual',
+            'MONTHLY',
+            'BIMONTHLY',
+            'QUARTERLY',
+            'FOURMONTHLY',
+            'SIXMONTHLY',
+            'ANNUAL'
           ],
           capitalizationItems: [
-            'Diaria',
-            'Mensual',
-            'Bimestral',
-            'Trimestral',
-            'Semestral',
-            'Anual',
+            'DAILY',  
+            'BIWEEKLY',
+            'MONTHLY',
+            'BIMONTHLY',
+            'QUARTERLY',
+            'FOURMONTHLY',
+            'SIXMONTHLY',
+            'ANNUAL'
           ],
         },
         isValid: false,
@@ -380,17 +396,69 @@ export default {
     }
   },
   methods: {
-    validate () {
-      if(this.$refs.form.validate()){
-            this.onSubmit()
+    retrieveData(){
+         const dataRetrieve = {
+        
+              date : this.form.scheduleData.date,
+              createBoundDataResource : {
+              nominalValue : this.form.scheduleData.boundData.nominalValue,
+              commercialValue : parseFloat(this.form.scheduleData.boundData.commercialValue),
+              years : parseInt(this.form.scheduleData.boundData.years),
+              couponFrequency: this.form.scheduleData.boundData.couponFrequency,
+              daysYear : parseInt(this.form.scheduleData.boundData.daysYear),
+              typeInterestRate : this.form.scheduleData.boundData.typeInterestRate,
+              capitalization : this.form.scheduleData.boundData.capitalization,
+              interestRate : parseFloat(this.form.scheduleData.boundData.interestRate),
+              annualDiscountRate : parseFloat(this.form.scheduleData.boundData.annualDiscountRate),
+              incomeTax : parseFloat(this.form.scheduleData.boundData.incomeTax),
+              issue : this.form.scheduleData.boundData.issue,
+              gracePeriod : this.form.scheduleData.boundData.gracePeriod,
+              typeOfGracePeriod : this.form.scheduleData.boundData.typeOfGracePeriod,
+            },
+            createInitialCostDataResource : {
+              premium : this.form.scheduleData.initialCostData.premium  ,
+              structuring : this.form.scheduleData.initialCostData.structuring ,
+              collocation : this.form.scheduleData.initialCostData.collocation,
+              floatation : this.form.scheduleData.initialCostData.floatation,
+              cavali: this.form.scheduleData.initialCostData.cavali,
+            }
+         
       }
-      else this.scheduleStore.error=true
+      return dataRetrieve
     },
+    
     async onSubmit() {
-      this.userId = this.authStore.user.id;
-      await this.scheduleStore.createSchedule(this.userId, this.form.scheduleData);
+       if(this.$refs.form.validate()){
+          const data = this.retrieveData()
+          this.userId = this.authStore.user.id;
+          await this.scheduleStore.createSchedule(this.userId, data);
+       }
+       else this.scheduleStore.error = true
     },
+     initForm() {
+            this.form.scheduleData.boundData.nominalValue = '',
+            this.form.scheduleData.boundData.commercialValue = '',
+            this.form.scheduleData.boundData.years = '',
+            this.form.scheduleData.boundData.couponFrequency ='',
+            this.form.scheduleData.boundData.daysYear = '',
+            this.form.scheduleData.boundData.typeInterestRate = '',
+            this.form.scheduleData.boundData.capitalization ='',
+            this.form.scheduleData.boundData.interestRate = '',
+            this.form.scheduleData.boundData.annualDiscountRate = '',
+            this.form.scheduleData.boundData.incomeTax = '',
+            this.form.scheduleData.boundData.issue = '',
+            this.form.scheduleData.boundData.gracePeriod = '',
+            this.form.scheduleData.boundData.typeOfGracePeriod = '',
+            this.form.scheduleData.initialCostData.premium = '',
+            this.form.scheduleData.initialCostData.structuring = '',
+            this.form.scheduleData.initialCostData.collocation = '',
+            this.form.scheduleData.initialCostData.floatation = '',
+            this.form.scheduleData.initialCostData.cavali= ''
+    }
   },
+  mounted() {
+      this.initForm();
+  }
 }
 </script>
 <style>
