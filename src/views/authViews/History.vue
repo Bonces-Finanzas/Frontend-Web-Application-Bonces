@@ -286,14 +286,14 @@
         <v-btn
             class="ml-auto"
             width="150"
-            color="accent"
+            color="secondary"
             @click="seeSchedule(schedule)"
         >Ver
         </v-btn>
         <v-btn
             class="ml-5"
             width="150"
-            color="accent"
+            color="secondary"
             @click="editSchedule(schedule)"
         >Editar
         </v-btn>
