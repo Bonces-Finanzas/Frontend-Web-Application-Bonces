@@ -8,7 +8,7 @@
         <h1 class="text-left mb-10">Ingreso de Datos</h1>
         <v-row>
           <v-col class="col-12 col-sm-8 col-md-5 mx-auto flex">
-            <h2 class="text-center mb-10">Datos del Bono</h2>
+            <h2 class="text-center mb-10"><span>Datos del Bono</span></h2>
             <v-row>
               <v-col cols="4">
                 <v-subheader class="font-weight-medium">Valor Nominal</v-subheader>
@@ -17,6 +17,7 @@
                 <v-text-field
                     v-model="form.scheduleData.boundData.nominalValue"
                     color="accent"
+                    background-color="blue-grey lighten-5"
                     prefix="s/"
                     solo
                     :rules="[rules.required,rules.isPositive]"
@@ -32,6 +33,7 @@
                 <v-text-field
                     v-model="form.scheduleData.boundData.commercialValue"
                     color="accent"
+                    background-color="blue-grey lighten-5"
                     prefix="s/"
                     solo
                     :rules="[rules.required,rules.isPositive]"
@@ -47,6 +49,7 @@
                 <v-text-field
                     v-model="form.scheduleData.boundData.years"
                     color="accent"
+                    background-color="blue-grey lighten-5"
                     solo
                     :rules="[rules.required,rules.isInt,rules.isPositive]"
                 ></v-text-field>
@@ -62,6 +65,8 @@
                     v-model="form.scheduleData.boundData.couponFrequency"
                     :items="form.items.couponFrequencyItems"
                     persistent-hint
+                    color="accent"
+                    background-color="blue-grey lighten-5"
                     solo
                     :rules=[rules.required]
                 ></v-select>
@@ -76,6 +81,7 @@
                 <v-text-field
                     v-model="form.scheduleData.boundData.daysYear"
                     color="accent"
+                    background-color="blue-grey lighten-5"
                     solo
                     :rules="[rules.required,rules.isInt,rules.isPositive]"
                 ></v-text-field>
@@ -92,6 +98,8 @@
                     v-model="form.scheduleData.boundData.typeInterestRate"
                     :items="form.items.interestRateTypeItems"
                     persistent-hint
+                    color="accent"
+                    background-color="blue-grey lighten-5"
                     solo
                     :rules="[rules.required]"
                 ></v-select>
@@ -108,6 +116,8 @@
                     :items="form.items.capitalizationItems"
                     item-text="state"
                     item-value="abbr"
+                    color="accent"
+                    background-color="blue-grey lighten-5"
                     solo
                     :rules="[rules.required]"
                 ></v-select>
@@ -121,8 +131,9 @@
               <v-col cols="8">
                 <v-text-field
                     v-model="form.scheduleData.boundData.interestRate"
-                    color="accent"
                     suffix="%"
+                    color="accent"
+                    background-color="blue-grey lighten-5"
                     solo
                     :rules="[rules.required,rules.isPositive]"
                 ></v-text-field>
@@ -136,8 +147,9 @@
               <v-col cols="8">
                 <v-text-field
                     v-model="form.scheduleData.boundData.annualDiscountRate"
-                    color="accent"
                     suffix="%"
+                    color="accent"
+                    background-color="blue-grey lighten-5"
                     solo
                     :rules="[rules.required,rules.isPositive]"
                 ></v-text-field>
@@ -151,8 +163,9 @@
               <v-col cols="8">
                 <v-text-field
                     v-model="form.scheduleData.boundData.incomeTax"
-                    color="accent"
                     suffix="%"
+                    color="accent"
+                    background-color="blue-grey lighten-5"
                     solo
                     :rules="[rules.required,rules.isPositive]"
                 ></v-text-field>
@@ -179,6 +192,8 @@
                         readonly
                         v-bind="attrs"
                         v-on="on"
+                        color="accent"
+                        background-color="blue-grey lighten-5"
                         solo
                         :rules="[rules.required]"
                     ></v-text-field>
@@ -220,8 +235,9 @@
                 <v-text-field
 
                     v-model="form.scheduleData.initialCostData.premium"
-                    color="accent"
                     suffix="%"
+                    color="accent"
+                    background-color="blue-grey lighten-5"
                     solo
                     :rules="[rules.required,rules.isPositive]"
                 ></v-text-field>
@@ -234,8 +250,9 @@
               <v-col cols="8">
                 <v-text-field
                     v-model="form.scheduleData.initialCostData.structuring"
-                    color="accent"
                     suffix="%"
+                    color="accent"
+                    background-color="blue-grey lighten-5"
                     solo
                     :rules="[rules.required,rules.isPositive]"
                 ></v-text-field>
@@ -247,9 +264,9 @@
               </v-col>
               <v-col cols="8">
                 <v-text-field
-
                     v-model="form.scheduleData.initialCostData.collocation"
                     color="accent"
+                    background-color="blue-grey lighten-5"
                     suffix="%"
                     solo
                     :rules="[rules.required,rules.isPositive]"
@@ -265,6 +282,7 @@
                 <v-text-field
                     v-model="form.scheduleData.initialCostData.floatation"
                     color="accent"
+                    background-color="blue-grey lighten-5"
                     suffix="%"
                     solo
                     :rules="[rules.required,rules.isPositive]"
@@ -280,6 +298,7 @@
                 <v-text-field
                     v-model="form.scheduleData.initialCostData.cavali"
                     color="accent"
+                    background-color="blue-grey lighten-5"
                     suffix="%"
                     solo
                     :rules="[rules.required,rules.isPositive]"
@@ -320,6 +339,301 @@
         </v-btn>
       </template>
     </v-snackbar>
+    <v-container>
+      <h1>Resultados</h1>
+      <br>
+      <v-row>
+        <v-col class="col-12 col-sm-8 col-md-5 mx-auto flex">
+          <div>
+            <h2>Resultados de la Estructuración<br>del bono</h2>
+            <br>
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">Frecuencia del Cupon</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+  
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">Dias Capitalización</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+  
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">Nº Periodos por año</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+  
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">Nº Total de Periodos</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+            
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">Tasa Efectiva Anual</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+  
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">Tasa Efectiva Semestral</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+  
+             <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">COK Semestral</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+  
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">Costes Iniciales Emisor</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+  
+              <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">Costes Iniciales Bonista</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+          </div> 
+
+          <div>
+            <h2>Resultados del precio actual y<br>utilidad</h2>
+            <br>
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">Precio Actual</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+  
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">Utilidad/Pérdida</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+          </div>
+
+        </v-col>
+        <v-col class="col-12 col-sm-8 col-md-5 mx-auto flex">
+          <div>
+            <h2>Resultados  de ratios de desición</h2>
+            <br>
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">Duración</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">Convexidad</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">Total</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+   
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">Duración Modificada</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+          </div> 
+
+          <div>
+            <h2>Resultados  de los indicadores de rentabilidad</h2>
+            <br>
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">TCEA Emisor</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">TCEA Emisor c/Escudo</v-subheader>
+                  </v-col>
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>
+            </v-row>
+
+            <v-row>
+                  <v-col class="col-5 col-sm-4 pa-0">
+                    <v-subheader class="font-weight-medium">TREA Bonista</v-subheader>
+                  </v-col>
+
+                  <v-col class="col-7 col-sm-8  pa-0">
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                    <v-text-field
+                        background-color="blue-grey lighten-5"
+                        color="accent"
+                        solo
+                        readonly
+                    ></v-text-field>
+                  </v-col>       
+            </v-row>
+          </div> 
+        </v-col>
+      </v-row>
+    </v-container>
   </v-container>
 </template>
 
@@ -462,5 +776,11 @@ export default {
 }
 </script>
 <style>
-
+ h2 {
+   text-align:center;
+   background-color: #A5EBE9;
+   padding: 4% 10%;
+   margin: 5% 0%;
+   
+ }
 </style>
