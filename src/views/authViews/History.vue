@@ -30,7 +30,7 @@
                       prefix="s/"
                       solo
                       readonly
-                      :value="schedule.createBoundDataResource.nominalValue"
+                      :value="schedule.boundData.nominalValue"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -46,7 +46,7 @@
                       prefix="s/"
                       solo
                       readonly
-                      :value="schedule.createBoundDataResource.commercialValue"
+                      :value="schedule.boundData.commercialValue"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -61,7 +61,7 @@
                       color="accent"
                       solo
                       readonly
-                      :value="schedule.createBoundDataResource.years"
+                      :value="schedule.boundData.years"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -76,7 +76,7 @@
                       color="accent"
                       solo
                       readonly
-                      :value="schedule.createBoundDataResource.couponFrequency"
+                      :value="getCouponFrequency(schedule.boundData.couponFrequency)"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -91,7 +91,7 @@
                       color="accent"
                       solo
                       readonly
-                      :value="schedule.createBoundDataResource.daysYear"
+                      :value="schedule.boundData.daysYear"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -106,7 +106,7 @@
                       color="accent"
                       solo
                       readonly
-                      :value="schedule.createBoundDataResource.typeInterestRate"
+                      :value="getTypeInterestRate(schedule.boundData.typeInterestRate)"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -123,7 +123,7 @@
                       color="accent"
                       solo
                       readonly
-                      :value="schedule.createBoundDataResource.capitalization"
+                      :value="getCapitalization(schedule.boundData.capitalization)"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -139,7 +139,7 @@
                       solo
                       suffix="%"
                       readonly
-                      :value="toPercent(schedule.createBoundDataResource.interestRate)"
+                      :value="toPercent(schedule.boundData.interestRate)"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -155,7 +155,7 @@
                       solo
                       suffix="%"
                       readonly
-                      :value="toPercent(schedule.createBoundDataResource.annualDiscountRate)"
+                      :value="toPercent(schedule.boundData.annualDiscountRate)"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -171,7 +171,7 @@
                       solo
                       suffix="%"
                       readonly
-                      :value="toPercent(schedule.createBoundDataResource.incomeTax)"
+                      :value="toPercent(schedule.boundData.incomeTax)"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -187,7 +187,7 @@
                       color="accent"
                       solo
                       readonly
-                      :value="formatDate(schedule)"
+                      :value="formatDate(schedule.boundData.issue)"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -212,7 +212,7 @@
                   solo
                   suffix="%"
                   readonly
-                  :value="toPercent(schedule.createInitialCostDataResource.premium)"
+                  :value="toPercent(schedule.initialCostData.premium)"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -228,7 +228,7 @@
                   solo
                   suffix="%"
                   readonly
-                  :value="toPercent(schedule.createInitialCostDataResource.structuring)"
+                  :value="toPercent(schedule.initialCostData.structuring)"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -244,7 +244,7 @@
                   solo
                   suffix="%"
                   readonly
-                  :value="toPercent(schedule.createInitialCostDataResource.collocation)"
+                  :value="toPercent(schedule.initialCostData.collocation)"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -260,7 +260,7 @@
                   solo
                   suffix="%"
                   readonly
-                  :value="toPercent(schedule.createInitialCostDataResource.floatation)"
+                  :value="toPercent(schedule.initialCostData.floatation)"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -276,7 +276,7 @@
                   solo
                   suffix="%"
                   readonly
-                  :value="toPercent(schedule.createInitialCostDataResource.cavali)"
+                  :value="toPercent(schedule.initialCostData.cavali)"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -287,24 +287,33 @@
             class="ml-auto"
             width="150"
             color="accent"
-        >Ver</v-btn>
+            @click="seeSchedule(schedule)"
+        >Ver
+        </v-btn>
         <v-btn
             class="ml-5"
             width="150"
             color="accent"
-        >Editar</v-btn>
+            @click="editSchedule(schedule)"
+        >Editar
+        </v-btn>
       </v-row>
     </v-card>
   </v-container>
 </template>
 
 <script>
+import {useScheduleStore} from "@/store/useScheduleStore";
+import {useAuthStore} from "@/store/useAuthStore";
 
 export default {
   name: "History",
   data() {
     return {
-      schedules: [
+      authStore: useAuthStore(),
+      scheduleStore: useScheduleStore(),
+      schedules: []
+      /*schedules: [
         {
           id: 1,
           date: "2022-06-10T19:10:04.826Z",
@@ -357,17 +366,73 @@ export default {
             cavali: 0.005
           }
         }
-      ]
+      ]*/
     }
   },
   methods: {
+    getTypeInterestRate(typeInterestRate) {
+      if (typeInterestRate == "EFFECTIVE") return "Efectiva";
+      return "Nominal";
+    },
+    getCouponFrequency(couponFrequency) {
+      switch (couponFrequency) {
+        case "MONTHLY":
+          return "Mensual";
+        case "BIMONTHLY":
+          return "Bimestral";
+        case "QUARTERLY":
+          return "Trimestral";
+        case "FOURMONTHLY":
+          return "Cuatrimestral";
+        case "SIXMONTHLY":
+          return "Semestral";
+        case "ANNUAL":
+          return "Anual";
+        default:
+          return "Null";
+      }
+    },
+    getCapitalization(capitalization) {
+      switch (capitalization) {
+        case "DAILY":
+          return "Diario";
+        case "BIWEEKLY":
+          return "Quincenal";
+        case "MONTHLY":
+          return "Mensual";
+        case "BIMONTHLY":
+          return "Bimestral";
+        case "QUARTERLY":
+          return "Trimestral";
+        case "FOURMONTHLY":
+          return "Cuatrimestral";
+        case "SIXMONTHLY":
+          return "Semestral";
+        case "ANNUAL":
+          return "Anual";
+        default:
+          return "Null";
+      }
+    },
     toPercent(n) {
       return Math.round(((n + Number.EPSILON) * 100) * 100000) / 100000;
     },
-    formatDate(schedule) {
-      const date = new Date(schedule.createBoundDataResource.issue);
-      return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
+    formatDate(date) {
+      const fDate = new Date(date);
+      return `${fDate.getDay()}/${fDate.getMonth()}/${fDate.getFullYear()}`;
+    },
+    onLoad() {
+      this.schedules = this.authStore.user.schedules;
+    },
+    seeSchedule(schedule) {
+      this.scheduleStore.seeSchedule(schedule);
+    },
+    editSchedule(schedule) {
+      this.seeSchedule(schedule);
     }
+  },
+  mounted() {
+    this.onLoad();
   }
 }
 </script> 
