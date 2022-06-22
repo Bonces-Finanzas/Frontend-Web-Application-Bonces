@@ -357,6 +357,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.structuringResults.couponFrequencyDays"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -371,6 +372,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.structuringResults.capitalizationDays"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -385,6 +387,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.structuringResults.periodsPerYear"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -399,6 +402,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.structuringResults.totalNumberOfPeriods"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -413,6 +417,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.structuringResults.effectiveAnnualRate"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -427,6 +432,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.structuringResults.effectiveRate"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -441,6 +447,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.structuringResults.cok"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -455,6 +462,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.structuringResults.initialCostsEmitter"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -469,6 +477,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.structuringResults.initialCostsBondholder"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -487,6 +496,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.resultsOfCurrentPriceAndProfit.currentPrice"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -501,6 +511,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.resultsOfCurrentPriceAndProfit.lostProfit"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -521,6 +532,7 @@
                         color="accent"
                         solo
                         readonly
+                         :value="results.resultsOfDecisionRatio.duration"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -535,6 +547,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.resultsOfDecisionRatio.convexity"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -548,6 +561,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.resultsOfDecisionRatio.total"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -562,6 +576,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.resultsOfDecisionRatio.modifiedDuration"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -580,6 +595,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.profitabilityResults.emitterTcea"
                     ></v-text-field>
                     <v-text-field
                         background-color="blue-grey lighten-5"
@@ -600,6 +616,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.profitabilityResults.emitterTceaWithShield"
                     ></v-text-field>
                     <v-text-field
                         background-color="blue-grey lighten-5"
@@ -621,6 +638,7 @@
                         color="accent"
                         solo
                         readonly
+                        :value="results.profitabilityResults.bondHolderTrea"
                     ></v-text-field>
                     <v-text-field
                         background-color="blue-grey lighten-5"
@@ -660,7 +678,7 @@ export default {
             annualDiscountRate: '',
             incomeTax: '',
             issue: '',
-            gracePeriod: '',
+            gracePeriod: 0,
             typeOfGracePeriod: 'S',
           },
             initialCostData: {
@@ -698,6 +716,15 @@ export default {
         isValid: false,
         issueDateMenu: false,
       },
+
+      results:{
+        resultsOfCurrentPriceAndProfit : Object,
+        resultsOfDecisionRatio : Object,
+        profitabilityResults : Object,
+        structuringResults : Object,
+        quotas : Object
+      },
+
       rules:{
         required: v => !!v || 'Requerido',
         isInt: v => Number.isInteger(Number(v)) || 'Entero requerido',
@@ -705,6 +732,7 @@ export default {
       },
       timeout: 3000,
       userId: 0,
+      scheduleCurrentData : Object,
       scheduleStore: useScheduleStore(),
       authStore: useAuthStore()
     }
@@ -712,7 +740,6 @@ export default {
   methods: {
     retrieveData(){
          const dataRetrieve = {
-        
               date : this.form.scheduleData.date,
               createBoundDataResource : {
               nominalValue : this.form.scheduleData.boundData.nominalValue,
@@ -726,8 +753,8 @@ export default {
               annualDiscountRate : parseFloat(this.form.scheduleData.boundData.annualDiscountRate),
               incomeTax : parseFloat(this.form.scheduleData.boundData.incomeTax),
               issue : this.form.scheduleData.boundData.issue,
-              gracePeriod : this.form.scheduleData.boundData.gracePeriod,
-              typeOfGracePeriod : this.form.scheduleData.boundData.typeOfGracePeriod,
+              gracePeriod : 0,
+              typeOfGracePeriod : 'S',
             },
             createInitialCostDataResource : {
               premium : this.form.scheduleData.initialCostData.premium  ,
@@ -745,11 +772,38 @@ export default {
        if(this.$refs.form.validate()){
           const data = this.retrieveData()
           this.userId = this.authStore.user.id;
-          await this.scheduleStore.createSchedule(this.userId, data);
+          console.log(data);
+          await this.scheduleStore.createSchedule(this.userId, data).
+          then(()=>{
+            console.log("nice")
+            this.updateShowResultsData()
+          })
        }
        else this.scheduleStore.error = true
     },
-     initForm() {
+    initForm() {
+            if(this.scheduleCurrentData.hasOwnProperty('id')){    
+               this.form.scheduleData.boundData.nominalValue = this.scheduleCurrentData.boundData.nominalValue,
+               this.form.scheduleData.boundData.commercialValue = this.scheduleCurrentData.boundData.commercialValue,
+               this.form.scheduleData.boundData.years = this.scheduleCurrentData.boundData.years,
+               this.form.scheduleData.boundData.couponFrequency = this.scheduleCurrentData.boundData.couponFrequency,
+               this.form.scheduleData.boundData.daysYear = this.scheduleCurrentData.boundData.daysYear,
+               this.form.scheduleData.boundData.typeInterestRate = this.scheduleCurrentData.boundData.typeInterestRate,
+               this.form.scheduleData.boundData.capitalization = this.scheduleCurrentData.boundData.capitalization,
+               this.form.scheduleData.boundData.interestRate = this.scheduleCurrentData.boundData.interestRate,
+               this.form.scheduleData.boundData.annualDiscountRate = this.scheduleCurrentData.boundData.annualDiscountRate,
+               this.form.scheduleData.boundData.incomeTax = this.scheduleCurrentData.boundData.incomeTax,
+               this.form.scheduleData.boundData.issue = this.scheduleCurrentData.boundData.issue,
+               this.form.scheduleData.boundData.gracePeriod = this.scheduleCurrentData.boundData.gracePeriod,
+               this.form.scheduleData.boundData.typeOfGracePeriod = this.scheduleCurrentData.boundData.typeOfGracePeriod,
+               this.form.scheduleData.initialCostData.premium = this.scheduleCurrentData.initialCostData.premium,
+               this.form.scheduleData.initialCostData.structuring = this.scheduleCurrentData.initialCostData.structuring,
+               this.form.scheduleData.initialCostData.collocation = this.scheduleCurrentData.initialCostData.collocation,
+               this.form.scheduleData.initialCostData.floatation = this.scheduleCurrentData.initialCostData.floatation,
+               this.form.scheduleData.initialCostData.cavali= this.scheduleCurrentData.initialCostData.cavali
+               this.updateShowResultsData()
+            }
+            else {
             this.form.scheduleData.boundData.nominalValue = '',
             this.form.scheduleData.boundData.commercialValue = '',
             this.form.scheduleData.boundData.years = '',
@@ -768,10 +822,28 @@ export default {
             this.form.scheduleData.initialCostData.collocation = '',
             this.form.scheduleData.initialCostData.floatation = '',
             this.form.scheduleData.initialCostData.cavali= ''
-    }
+
+            }
+    },
+
+    updateShowResultsData(){
+    this.scheduleCurrentData = this.scheduleStore.schedule;
+    console.log("aver")
+    console.log(this.scheduleCurrentData)
+    this.results.resultsOfCurrentPriceAndProfit = this.scheduleCurrentData.resultsOfCurrentPriceAndProfit;
+    this.results.resultsOfDecisionRatio = this.scheduleCurrentData.resultsOfDecisionRatio;
+    this.results.profitabilityResults = this.scheduleCurrentData.profitabilityResults;
+    this.results.structuringResults=this.scheduleCurrentData.structuringResults
+    this.results.quotas= this.scheduleCurrentData.quotas
+    console.log(this.results)
+    },
+
   },
+ 
   mounted() {
+      this.scheduleCurrentData=this.scheduleStore.schedule
       this.initForm();
+      console.log(this.scheduleCurrentData)
   }
 }
 </script>
