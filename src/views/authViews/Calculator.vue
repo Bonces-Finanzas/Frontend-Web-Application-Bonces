@@ -339,321 +339,347 @@
         </v-btn>
       </template>
     </v-snackbar>
-    <v-container>
-      <h1>Resultados</h1>
-      <br>
-      <v-row>
-        <v-col class="col-12 col-sm-8 col-md-5 mx-auto flex">
-          <div>
-            <h2>Resultados de la Estructuración<br>del bono</h2>
-            <br>
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">Frecuencia del Cupon</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="results.structuringResults.couponFrequencyDays"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
+    <v-container
+     v-if="showResults"
+    >
+      <v-container>
+        <h1>Resultados</h1>
+        <br>
+        <v-row>
+          <v-col class="col-12 col-sm-8 col-md-5 mx-auto flex">
+            <div>
+              <h2>Resultados de la Estructuración<br>del bono</h2>
+              <br>
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">Frecuencia del Cupon</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="results.structuringResults.couponFrequencyDays"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+    
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">Dias Capitalización</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="results.structuringResults.capitalizationDays"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+    
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">Nº Periodos por año</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="results.structuringResults.periodsPerYear"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+    
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">Nº Total de Periodos</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="results.structuringResults.totalNumberOfPeriods"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+              
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">Tasa Efectiva Anual</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="toCorrectPercentDecimal(results.structuringResults.effectiveAnnualRate)"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+    
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">Tasa Efectiva Semestral</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="toCorrectPercentDecimal(results.structuringResults.effectiveRate)"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+    
+               <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">COK Semestral</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="toCorrectPercentDecimal(results.structuringResults.cok)"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+    
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">Costes Iniciales Emisor</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="toCorrectValueDecimal(results.structuringResults.initialCostsEmitter)"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+    
+                <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">Costes Iniciales Bonista</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="toCorrectValueDecimal(results.structuringResults.initialCostsBondholder)"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+            </div> 
   
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">Dias Capitalización</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="results.structuringResults.capitalizationDays"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
+            <div>
+              <h2>Resultados del precio actual y<br>utilidad</h2>
+              <br>
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">Precio Actual</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="toCorrectValueDecimal(results.resultsOfCurrentPriceAndProfit.currentPrice)"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+    
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">Utilidad/Pérdida</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="toCorrectValueDecimal(results.resultsOfCurrentPriceAndProfit.lostProfit)"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+            </div>
   
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">Nº Periodos por año</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="results.structuringResults.periodsPerYear"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
-  
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">Nº Total de Periodos</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="results.structuringResults.totalNumberOfPeriods"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
-            
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">Tasa Efectiva Anual</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="toCorrectPercentDecimal(results.structuringResults.effectiveAnnualRate)"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
-  
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">Tasa Efectiva Semestral</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="toCorrectPercentDecimal(results.structuringResults.effectiveRate)"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
-  
-             <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">COK Semestral</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="toCorrectPercentDecimal(results.structuringResults.cok)"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
-  
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">Costes Iniciales Emisor</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="toCorrectValueDecimal(results.structuringResults.initialCostsEmitter)"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
+          </v-col>
+          <v-col class="col-12 col-sm-8 col-md-5 mx-auto flex">
+            <div>
+              <h2>Resultados  de ratios de desición</h2>
+              <br>
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">Duración</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                           :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.duration)"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
   
               <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">Costes Iniciales Bonista</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="toCorrectValueDecimal(results.structuringResults.initialCostsBondholder)"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
-          </div> 
-
-          <div>
-            <h2>Resultados del precio actual y<br>utilidad</h2>
-            <br>
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">Precio Actual</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="toCorrectValueDecimal(results.resultsOfCurrentPriceAndProfit.currentPrice)"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">Convexidad</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.convexity)"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">Total</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.total)"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+     
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">Duración Modificada</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.modifiedDuration)"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+            </div> 
   
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">Utilidad/Pérdida</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="toCorrectValueDecimal(results.resultsOfCurrentPriceAndProfit.lostProfit)"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
-          </div>
+            <div>
+              <h2>Resultados  de los indicadores de rentabilidad</h2>
+              <br>
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">TCEA Emisor</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTcea)"
+                      ></v-text-field>
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                           :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTirTcea)"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+  
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">TCEA Emisor c/Escudo</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTceaWithShield)"
+                      ></v-text-field>
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTirTceaWithShield)"
+                      ></v-text-field>
+                    </v-col>
+              </v-row>
+  
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">TREA Bonista</v-subheader>
+                    </v-col>
+  
+                    <v-col class="col-7 col-sm-8  pa-0">
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                          :value="toCorrectPercentDecimal(results.profitabilityResults.bondHolderTrea)"
+                      ></v-text-field>
+                      <v-text-field
+                          background-color="blue-grey lighten-5"
+                          color="accent"
+                          solo
+                          readonly
+                           :value="toCorrectPercentDecimal(results.profitabilityResults.bondholderTirTrea)"
+                      ></v-text-field>
+                    </v-col>       
+              </v-row>
+            </div> 
+          </v-col>
+        </v-row>
+      </v-container>
 
-        </v-col>
-        <v-col class="col-12 col-sm-8 col-md-5 mx-auto flex">
-          <div>
-            <h2>Resultados  de ratios de desición</h2>
-            <br>
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">Duración</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                         :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.duration)"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
+      <v-container>
+        <v-card>
+          <v-card-title>
+            Cronograma
+            <v-spacer></v-spacer>
+            <v-text-field
+              v-model="quotasData.search"
+              append-icon="mdi-magnify"
+              label="Buscar"
+              single-line
+              hide-details
+            ></v-text-field>
+          </v-card-title>
+          <v-data-table
+            :headers="quotasData.headers"
+            :items="quotasData.quotas"
+            :search="quotasData.search"
+          ></v-data-table>
+        </v-card>
+      </v-container>
 
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">Convexidad</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.convexity)"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">Total</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.total)"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
-   
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">Duración Modificada</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.modifiedDuration)"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
-          </div> 
-
-          <div>
-            <h2>Resultados  de los indicadores de rentabilidad</h2>
-            <br>
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">TCEA Emisor</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTcea)"
-                    ></v-text-field>
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                         :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTirTcea)"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
-
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">TCEA Emisor c/Escudo</v-subheader>
-                  </v-col>
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTceaWithShield)"
-                    ></v-text-field>
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTirTceaWithShield)"
-                    ></v-text-field>
-                  </v-col>
-            </v-row>
-
-            <v-row>
-                  <v-col class="col-5 col-sm-4 pa-0">
-                    <v-subheader class="font-weight-medium">TREA Bonista</v-subheader>
-                  </v-col>
-
-                  <v-col class="col-7 col-sm-8  pa-0">
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                        :value="toCorrectPercentDecimal(results.profitabilityResults.bondHolderTrea)"
-                    ></v-text-field>
-                    <v-text-field
-                        background-color="blue-grey lighten-5"
-                        color="accent"
-                        solo
-                        readonly
-                         :value="toCorrectPercentDecimal(results.profitabilityResults.bondholderTirTrea)"
-                    ></v-text-field>
-                  </v-col>       
-            </v-row>
-          </div> 
-        </v-col>
-      </v-row>
     </v-container>
   </v-container>
 </template>
@@ -719,7 +745,7 @@ export default {
         isValid: false,
         issueDateMenu: false,
       },
-
+     
       results:{
         resultsOfCurrentPriceAndProfit : Object,
         resultsOfDecisionRatio : Object,
@@ -727,12 +753,42 @@ export default {
         structuringResults : Object,
         quotas : Object
       },
+      quotasData :{
+          search: '',
+          headers: [
+            {
+              text: 'Nº',
+              align: 'start',
+              sortable:true,
+              value: 'numberOfQuota',
+            },
+            { text: 'Fecha Programada', value: 'scheduledDate' },
+            { text: 'Inflación Anual', value: 'fat' },
+            { text: 'Inflacion Semestral', value: 'carbs' },
+            { text: 'Plazo de Gracia', value: 'typeOfGracePeriod' },
+            { text: 'Bono', value: 'bond' },
+            { text: 'Bono Indexado', value: 'indexedBond' },
+            { text: 'Cupón(Interes)', value: 'coupon' },
+            { text: 'Cuota', value: 'quota' },
+            { text: 'Amort.', value: 'amortization' },
+            { text: 'Prima', value: 'premium' },
+            { text: 'Escudo', value: 'shield' },
+            { text: 'Flujo emisor.', value: 'emitterStream' },
+            { text: 'Flujo emisor c/escudo', value: 'emitterFlowWithShield' },
+            { text: 'Flujo Bonista', value: 'boundHolderFlow' },
+            { text: 'Flujo Act.', value: 'currentFlow' },
+            { text: 'FA x Plazo.', value: 'currentFlowPerPeriod' },
+            { text: 'FA x Factor p/Plazo convexidad', value: 'convexityFactor' },
+        ],
+        quotas:[]
+      },
 
       rules:{
         required: v => !!v || 'Requerido',
         isInt: v => Number.isInteger(Number(v)) || 'Entero requerido',
         isPositive:v => Number(v) > 0 || 'Número positivo requerido',
       },
+      showResults: true,
       timeout: 3000,
       userId: 0,
       scheduleCurrentData : Object,
@@ -776,9 +832,11 @@ export default {
           const data = this.retrieveData()
           this.userId = this.authStore.user.id;
           console.log(data);
-          await this.scheduleStore.createSchedule(this.userId, data).
+         if(this.scheduleCurrentData.hasOwnProperty('id')){
+          //Actualizar Schedule
+         }
+         else  await this.scheduleStore.createSchedule(this.userId, data).
           then(()=>{
-            console.log("nice")
             this.updateShowResultsData()
           })
        }
@@ -831,13 +889,12 @@ export default {
     
     updateShowResultsData(){
     this.scheduleCurrentData = this.scheduleStore.schedule;
-    console.log("aver")
     console.log(this.scheduleCurrentData)
     this.results.resultsOfCurrentPriceAndProfit = (this.scheduleCurrentData.resultsOfCurrentPriceAndProfit);
     this.results.resultsOfDecisionRatio = this.scheduleCurrentData.resultsOfDecisionRatio;
     this.results.profitabilityResults = this.scheduleCurrentData.profitabilityResults;
-    this.results.structuringResults=this.scheduleCurrentData.structuringResults
-    this.results.quotas= this.scheduleCurrentData.quotas
+    this.results.structuringResults = this.scheduleCurrentData.structuringResults
+    this.quotasData.quotas = this.scheduleCurrentData.quotas
     console.log(this.results)
     },
     toCorrectValueDecimal(n){
