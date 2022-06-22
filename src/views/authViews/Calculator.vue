@@ -417,7 +417,7 @@
                         color="accent"
                         solo
                         readonly
-                        :value="results.structuringResults.effectiveAnnualRate"
+                        :value="toCorrectPercentDecimal(results.structuringResults.effectiveAnnualRate)"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -432,7 +432,7 @@
                         color="accent"
                         solo
                         readonly
-                        :value="results.structuringResults.effectiveRate"
+                        :value="toCorrectPercentDecimal(results.structuringResults.effectiveRate)"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -447,7 +447,7 @@
                         color="accent"
                         solo
                         readonly
-                        :value="results.structuringResults.cok"
+                        :value="toCorrectPercentDecimal(results.structuringResults.cok)"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -462,7 +462,7 @@
                         color="accent"
                         solo
                         readonly
-                        :value="results.structuringResults.initialCostsEmitter"
+                        :value="toCorrectValueDecimal(results.structuringResults.initialCostsEmitter)"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -477,7 +477,7 @@
                         color="accent"
                         solo
                         readonly
-                        :value="results.structuringResults.initialCostsBondholder"
+                        :value="toCorrectValueDecimal(results.structuringResults.initialCostsBondholder)"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -496,7 +496,7 @@
                         color="accent"
                         solo
                         readonly
-                        :value="results.resultsOfCurrentPriceAndProfit.currentPrice"
+                        :value="toCorrectValueDecimal(results.resultsOfCurrentPriceAndProfit.currentPrice)"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -511,7 +511,7 @@
                         color="accent"
                         solo
                         readonly
-                        :value="results.resultsOfCurrentPriceAndProfit.lostProfit"
+                        :value="toCorrectValueDecimal(results.resultsOfCurrentPriceAndProfit.lostProfit)"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -532,7 +532,7 @@
                         color="accent"
                         solo
                         readonly
-                         :value="results.resultsOfDecisionRatio.duration"
+                         :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.duration)"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -547,7 +547,7 @@
                         color="accent"
                         solo
                         readonly
-                        :value="results.resultsOfDecisionRatio.convexity"
+                        :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.convexity)"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -561,7 +561,7 @@
                         color="accent"
                         solo
                         readonly
-                        :value="results.resultsOfDecisionRatio.total"
+                        :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.total)"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -576,7 +576,7 @@
                         color="accent"
                         solo
                         readonly
-                        :value="results.resultsOfDecisionRatio.modifiedDuration"
+                        :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.modifiedDuration)"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -595,13 +595,14 @@
                         color="accent"
                         solo
                         readonly
-                        :value="results.profitabilityResults.emitterTcea"
+                        :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTcea)"
                     ></v-text-field>
                     <v-text-field
                         background-color="blue-grey lighten-5"
                         color="accent"
                         solo
                         readonly
+                         :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTirTcea)"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -616,13 +617,14 @@
                         color="accent"
                         solo
                         readonly
-                        :value="results.profitabilityResults.emitterTceaWithShield"
+                        :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTceaWithShield)"
                     ></v-text-field>
                     <v-text-field
                         background-color="blue-grey lighten-5"
                         color="accent"
                         solo
                         readonly
+                        :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTirTceaWithShield)"
                     ></v-text-field>
                   </v-col>
             </v-row>
@@ -638,13 +640,14 @@
                         color="accent"
                         solo
                         readonly
-                        :value="results.profitabilityResults.bondHolderTrea"
+                        :value="toCorrectPercentDecimal(results.profitabilityResults.bondHolderTrea)"
                     ></v-text-field>
                     <v-text-field
                         background-color="blue-grey lighten-5"
                         color="accent"
                         solo
                         readonly
+                         :value="toCorrectPercentDecimal(results.profitabilityResults.bondholderTirTrea)"
                     ></v-text-field>
                   </v-col>       
             </v-row>
@@ -749,19 +752,19 @@ export default {
               daysYear : parseInt(this.form.scheduleData.boundData.daysYear),
               typeInterestRate : this.form.scheduleData.boundData.typeInterestRate,
               capitalization : this.form.scheduleData.boundData.capitalization,
-              interestRate : parseFloat(this.form.scheduleData.boundData.interestRate),
-              annualDiscountRate : parseFloat(this.form.scheduleData.boundData.annualDiscountRate),
-              incomeTax : parseFloat(this.form.scheduleData.boundData.incomeTax),
+              interestRate : (parseFloat(this.form.scheduleData.boundData.interestRate)/100),
+              annualDiscountRate : (parseFloat(this.form.scheduleData.boundData.annualDiscountRate)/100),
+              incomeTax : (parseFloat(this.form.scheduleData.boundData.incomeTax))/100,
               issue : this.form.scheduleData.boundData.issue,
               gracePeriod : 0,
               typeOfGracePeriod : 'S',
             },
             createInitialCostDataResource : {
-              premium : this.form.scheduleData.initialCostData.premium  ,
-              structuring : this.form.scheduleData.initialCostData.structuring ,
-              collocation : this.form.scheduleData.initialCostData.collocation,
-              floatation : this.form.scheduleData.initialCostData.floatation,
-              cavali: this.form.scheduleData.initialCostData.cavali,
+              premium : (parseFloat(this.form.scheduleData.initialCostData.premium)/100),
+              structuring : (parseFloat(this.form.scheduleData.initialCostData.structuring)/100),
+              collocation : (parseFloat(this.form.scheduleData.initialCostData.collocation)/100),
+              floatation : (parseFloat(this.form.scheduleData.initialCostData.floatation)/100),
+              cavali : (parseFloat(this.form.scheduleData.initialCostData.cavali)/100),
             }
          
       }
@@ -825,19 +828,24 @@ export default {
 
             }
     },
-
+    
     updateShowResultsData(){
     this.scheduleCurrentData = this.scheduleStore.schedule;
     console.log("aver")
     console.log(this.scheduleCurrentData)
-    this.results.resultsOfCurrentPriceAndProfit = this.scheduleCurrentData.resultsOfCurrentPriceAndProfit;
+    this.results.resultsOfCurrentPriceAndProfit = (this.scheduleCurrentData.resultsOfCurrentPriceAndProfit);
     this.results.resultsOfDecisionRatio = this.scheduleCurrentData.resultsOfDecisionRatio;
     this.results.profitabilityResults = this.scheduleCurrentData.profitabilityResults;
     this.results.structuringResults=this.scheduleCurrentData.structuringResults
     this.results.quotas= this.scheduleCurrentData.quotas
     console.log(this.results)
     },
-
+    toCorrectValueDecimal(n){
+      return parseFloat(n).toFixed(2);
+    },
+    toCorrectPercentDecimal(n){
+      return (parseFloat(n)*100).toFixed(7);
+    }
   },
  
   mounted() {
