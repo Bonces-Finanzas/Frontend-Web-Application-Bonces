@@ -9,6 +9,24 @@
         <v-row>
           <v-col class="col-12 col-sm-8 col-md-5 mx-auto flex">
             <h2 class="text-center mb-10"><span>Datos del Bono</span></h2>
+
+           <v-row>
+              <v-col cols="4">
+                <v-subheader class="font-weight-medium">Método de amortization</v-subheader>
+              </v-col>
+              <v-col cols="8">
+                <v-select
+                    v-model="form.scheduleData.boundData.couponFrequency"
+                    :items="form.items.amortizationMethods"
+                    persistent-hint
+                    color="accent"
+                    background-color="blue-grey lighten-5"
+                    solo
+                    :rules=[rules.required]
+                ></v-select>
+              </v-col>
+            </v-row>
+            
             <v-row>
               <v-col cols="4">
                 <v-subheader class="font-weight-medium">Valor Nominal</v-subheader>
@@ -694,7 +712,8 @@ export default {
     return {
       form: {
         scheduleData: {
-            date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+            methodType:'',
+            currencyType:'',
             boundData: {
             nominalValue: '',
             commercialValue: '',
@@ -707,8 +726,8 @@ export default {
             annualDiscountRate: '',
             incomeTax: '',
             issue: '',
-            gracePeriod: 0,
-            typeOfGracePeriod: 'S',
+            gracePeriod: '',
+            typeOfGracePeriod: '',
           },
             initialCostData: {
             premium: '',
@@ -719,27 +738,32 @@ export default {
           }
         },
         items :{
+          amortizationMethods: [
+             'Americano',
+             'Alemán',
+             'Francés',
+          ],
           interestRateTypeItems: [
-             'EFFECTIVE',
-             'NOMINAL'
+             'Efectiva',
+             'Nominal'
           ],
           couponFrequencyItems: [
-            'MONTHLY',
-            'BIMONTHLY',
-            'QUARTERLY',
-            'FOURMONTHLY',
-            'SIXMONTHLY',
-            'ANNUAL'
+            'Mensual',
+            'Bimestral',
+            'Trimestral',
+            'Cuatrimestral',
+            'Semestral',
+            'Anual'
           ],
           capitalizationItems: [
-            'DAILY',  
-            'BIWEEKLY',
-            'MONTHLY',
-            'BIMONTHLY',
-            'QUARTERLY',
-            'FOURMONTHLY',
-            'SIXMONTHLY',
-            'ANNUAL'
+            'Diario',  
+            'Quincenal',
+            'Mensual',
+            'Bimestral',
+            'Trimestral',
+            'Cuatrimestral',
+            'Semestral',
+            'Anual'
           ],
         },
         isValid: false,
@@ -797,17 +821,67 @@ export default {
     }
   },
   methods: {
+     getInterestRateType(interestRateType){
+       switch(interestRateType){
+        case "Efectiva":
+          return "EFFECTIVE"
+        case "Nominal":
+          return "NOMINAL"
+        default:
+          return "Null"  
+       }
+     },
+     getCouponFrequency(couponFrequency) {
+      switch (couponFrequency) {
+        case "Mensual":
+          return "MONTHLY";
+        case "Bimestral":
+          return "BIMONTHLY";
+        case "Trimestral":
+          return "QUARTERLY";
+        case "Cuatrimestral":
+          return "FOURMONTHLY";
+        case "Semestral":
+          return "SIXMONTHLY";
+        case "Anual":
+          return "ANNUAL";
+        default:
+          return "Null";
+      }
+    },
+    getCapitalization(capitalization) {
+      switch (capitalization) {
+        case "Diario":Diario
+          return "DAILY";
+        case "Quincenal":
+          return "BIWEEKLY";
+        case "Mensual":
+          return "MONTHLY";
+        case "Bimestral":
+          return "BIMONTHLY";
+        case "Trimestral":
+          return "QUARTERLY";
+        case "Cuatrimestral":
+          return "FOURMONTHLY";
+        case "Semestral":
+          return "SIXMONTHLY";
+        case "Anual":
+          return "ANNUAL";
+        default:
+          return "Null";
+      }
+    },
     retrieveData(){
          const dataRetrieve = {
               date : this.form.scheduleData.date,
               createBoundDataResource : {
-              nominalValue : this.form.scheduleData.boundData.nominalValue,
+              nominalValue : parseFloat(this.form.scheduleData.boundData.nominalValue),
               commercialValue : parseFloat(this.form.scheduleData.boundData.commercialValue),
               years : parseInt(this.form.scheduleData.boundData.years),
-              couponFrequency: this.form.scheduleData.boundData.couponFrequency,
+              couponFrequency: this.getCouponFrequency(this.form.scheduleData.boundData.couponFrequency),
               daysYear : parseInt(this.form.scheduleData.boundData.daysYear),
-              typeInterestRate : this.form.scheduleData.boundData.typeInterestRate,
-              capitalization : this.form.scheduleData.boundData.capitalization,
+              typeInterestRate :this.getInterestRateType(this.form.scheduleData.boundData.typeInterestRate),
+              capitalization :this.getCapitalization(this.form.scheduleData.boundData.capitalization),
               interestRate : (parseFloat(this.form.scheduleData.boundData.interestRate)/100),
               annualDiscountRate : (parseFloat(this.form.scheduleData.boundData.annualDiscountRate)/100),
               incomeTax : (parseFloat(this.form.scheduleData.boundData.incomeTax))/100,
