@@ -16,7 +16,7 @@
               </v-col>
               <v-col cols="8">
                 <v-select
-                    v-model="form.scheduleData.boundData.couponFrequency"
+                    v-model="form.scheduleData.methodType"
                     :items="form.items.amortizationMethods"
                     persistent-hint
                     color="accent"
@@ -26,6 +26,24 @@
                 ></v-select>
               </v-col>
             </v-row>
+
+            <v-row>
+              <v-col cols="4">
+                <v-subheader class="font-weight-medium">Tipo de moneda</v-subheader>
+              </v-col>
+              <v-col cols="8">
+                <v-select
+                    v-model="form.scheduleData.currencyType"
+                    :items="form.items.currencyTypeItems"
+                    persistent-hint
+                    color="accent"
+                    background-color="blue-grey lighten-5"
+                    solo
+                    :rules=[rules.required]
+                ></v-select>
+              </v-col>
+            </v-row>
+            
             
             <v-row>
               <v-col cols="4">
@@ -242,6 +260,39 @@
               </v-col>
             </v-row>
 
+            <v-row>
+              <v-col cols="4">
+                <v-subheader class="font-weight-medium">Periodo de gracia</v-subheader>
+              </v-col>
+              <v-col cols="8">
+                <v-text-field
+                    v-model="form.scheduleData.boundData.gracePeriod"
+                    suffix="%"
+                    color="accent"
+                    background-color="blue-grey lighten-5"
+                    solo
+                    :rules="[rules.required,rules.isPositive,rules.isInteger]"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
+             <v-row>
+              <v-col cols="4">
+                <v-subheader class="font-weight-medium">Tipo de periodo de gracias</v-subheader>
+              </v-col>
+              <v-col cols="8">
+                <v-select
+                    v-model="form.scheduleData.boundData.typeOfGracePeriod"
+                    :items="form.items.typeOfGracePeriodItems"
+                    persistent-hint
+                    color="accent"
+                    background-color="blue-grey lighten-5"
+                    solo
+                    :rules=[rules.required]
+                ></v-select>
+              </v-col>
+            </v-row>
+
           </v-col >
           <v-col class="col-12 col-sm-8 col-md-5 mx-auto flex">
             <h2 class="text-center mb-10">Datos de los costes</h2>
@@ -261,6 +312,7 @@
                 ></v-text-field>
               </v-col>
             </v-row>
+
             <v-row>
               <v-col cols="4">
                 <v-subheader class="font-weight-medium">% Estructuración</v-subheader>
@@ -276,6 +328,7 @@
                 ></v-text-field>
               </v-col>
             </v-row>
+
             <v-row>
               <v-col cols="4">
                 <v-subheader class="font-weight-medium">% Colocación</v-subheader>
@@ -743,6 +796,11 @@ export default {
              'Alemán',
              'Francés',
           ],
+           currencyTypeItems: [
+             'PEN',
+             'EUR',
+             'USD'
+          ],
           interestRateTypeItems: [
              'Efectiva',
              'Nominal'
@@ -765,6 +823,11 @@ export default {
             'Semestral',
             'Anual'
           ],
+          typeOfGracePeriodItems:[
+            'S',
+            'T',
+            'P'
+          ]
         },
         isValid: false,
         issueDateMenu: false,
@@ -821,14 +884,25 @@ export default {
     }
   },
   methods: {
+     getMethodType(method){
+      switch(method){
+        case "Americano":
+         return "AMERICAN";
+        case "Francés":
+         return "FRENCH";
+        case "Alemán":
+          return "GERMAN"
+      }
+      
+     },
      getInterestRateType(interestRateType){
        switch(interestRateType){
         case "Efectiva":
-          return "EFFECTIVE"
+          return "EFFECTIVE";
         case "Nominal":
-          return "NOMINAL"
+          return "NOMINAL";
         default:
-          return "Null"  
+          return "Null";  
        }
      },
      getCouponFrequency(couponFrequency) {
@@ -873,7 +947,8 @@ export default {
     },
     retrieveData(){
          const dataRetrieve = {
-              date : this.form.scheduleData.date,
+              methodType :this.getMethodType(this.form.scheduleData.methodType),
+              currencyType : this.form.scheduleData.currencyType,
               createBoundDataResource : {
               nominalValue : parseFloat(this.form.scheduleData.boundData.nominalValue),
               commercialValue : parseFloat(this.form.scheduleData.boundData.commercialValue),
@@ -886,8 +961,8 @@ export default {
               annualDiscountRate : (parseFloat(this.form.scheduleData.boundData.annualDiscountRate)/100),
               incomeTax : (parseFloat(this.form.scheduleData.boundData.incomeTax))/100,
               issue : this.form.scheduleData.boundData.issue,
-              gracePeriod : 0,
-              typeOfGracePeriod : 'S',
+              gracePeriod : parseFloat(this.form.scheduleData.boundData.gracePeriod),
+              typeOfGracePeriod : this.form.scheduleData.boundData.typeOfGracePeriod,
             },
             createInitialCostDataResource : {
               premium : (parseFloat(this.form.scheduleData.initialCostData.premium)/100),
