@@ -884,6 +884,10 @@ export default {
     }
   },
   methods: {
+    formatDate(date) {
+      const fDate = new Date(date);
+      return `${fDate.getDay()}/${fDate.getMonth()}/${fDate.getFullYear()}`;
+    },
      getMethodType(method){
       switch(method){
         case "Americano":
