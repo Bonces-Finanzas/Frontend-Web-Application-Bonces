@@ -148,6 +148,8 @@ export default {
       await this.authStore.update(this.user.id, { name, lastName, email });
       if (this.authStore.error === false)
         this.successfulUpdate = true;
+      this.isEdit = false;
+      this.retrieveUser();
     },
     retrieveUser() {
       this.user = Object.assign({}, this.authStore.user);
