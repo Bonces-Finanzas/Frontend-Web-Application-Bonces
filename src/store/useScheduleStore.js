@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
 import ScheduleService from "@/services/schedule-service";
 import router from "@/router";
-import { userAuthStore } from 'useAuthStore'
+import { userAuthStore } from './useAuthStore'
 
 const SCHEDULE = "schedule";
 
