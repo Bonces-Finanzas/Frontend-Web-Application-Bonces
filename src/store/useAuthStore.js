@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import UserService from "@/services/user-service";
 import router from "@/router";
+import { useScheduleStore } from "@/store/useScheduleStore";
 
 const USER = "user";
 
@@ -28,16 +29,18 @@ export const useAuthStore = defineStore({
             this.loading = false;
         },
         logout() {
-          this.user = null;
-          localStorage.clear();
-          router.push("/");
+            const scheduleStore = useScheduleStore();
+            scheduleStore.clearScheduleCalculatorForm();
+            this.user = null;
+            localStorage.clear();
+            router.push("/");
         },
         async updateCurrentUser() {
             this.loading = true;
             this.error = false
 
-            const { id, name, lastName, password } = this.user;
-            await UserService.update(id,{ name, lastName, password })
+            const { id, name, lastName, email } = this.user;
+            await UserService.update(id,{ name, lastName, email })
                 .then(response => {
                     this.user = response.data
                     localStorage.setItem(USER, JSON.stringify(response.data))
