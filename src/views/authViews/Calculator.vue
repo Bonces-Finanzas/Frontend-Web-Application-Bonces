@@ -379,29 +379,79 @@
 
           </v-col>
         </v-row>
-        
+         <v-container>
+           <v-row justify="center">
+            <v-col cols="4" >
+              <v-btn
+                  v-if="!scheduleStore.loading"
+                  color="secondary"
+                  class="py-5 mb-5"
+                  block
+                  align="center"
+                  x-large
+                  @click="onSubmit"
+                       >
+                Calcular
+              </v-btn>
+             <div
+              v-else
+              class="flex d-flex"
+      >    
+            <v-progress-circular
+                indeterminate
+                color="primary"
+                class="mx-auto mb-5"
+            ></v-progress-circular>
+            </div>
+           </v-col>
+
+           <v-col cols="4" >
+            <v-dialog
+      v-model="dialog"
+      persistent
+      max-width="290"
+    >
+      <template v-slot:activator="{ on, attrs }">
         <v-btn
-            v-if="!scheduleStore.loading"
-            color="secondary"
-            class="py-5 mb-5"
-            block
-            align="center"
-            x-large
-            @click="onSubmit"
-            :style="{left: '50%', transform:'translateX(-50%)'}"
-                 >
-          Calcular
+           color="secondary"
+           class="py-5 mb-5"
+           block
+           align="center"
+           x-large
+          v-bind="attrs"
+          v-on="on"
+        >
+          Limpiar
         </v-btn>
-         <div
-          v-else
-          class="flex d-flex"
-      >
-        <v-progress-circular
-            indeterminate
-            color="primary"
-            class="mx-auto mb-5"
-        ></v-progress-circular>
-      </div>
+      </template>
+      <v-card>
+        <v-card-title class="text-h5">
+          ¿Está seguro de borrar el formulario?
+        </v-card-title>
+        <v-card-text>Se perderán todos los datos avanzados</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog = false"
+          >
+            Cancelar
+          </v-btn>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog = false"
+          >
+            Sí
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+           </v-col>
+          </v-row>
+        </v-container>
+
       </v-container>
     </v-form>
     <v-snackbar
