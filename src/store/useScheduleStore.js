@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
 import ScheduleService from "@/services/schedule-service";
 import router from "@/router";
-import { userAuthStore } from './useAuthStore'
+import { useAuthStore } from "./useAuthStore.js"
 
 const SCHEDULE = "schedule";
 
@@ -57,7 +57,7 @@ export const useScheduleStore = defineStore({
             async createSchedule(userId, data) {
                 this.loading = true;
                 this.error = false;
-                const authStore = userAuthStore();
+                const authStore = useAuthStore();
                 await ScheduleService.create(userId, data)
                     .then(response => {
                         this.schedule = response.data;
@@ -74,7 +74,7 @@ export const useScheduleStore = defineStore({
             async updateSchedule(scheduleId, data) {
                 this.loading = true;
                 this.error = false;
-                const authStore = userAuthStore();
+                const authStore = useAuthStore();
                 await ScheduleService.update(scheduleId, data)
                     .then(response => {
                         this.schedule = response.data;
@@ -91,7 +91,7 @@ export const useScheduleStore = defineStore({
             async deleteSchedule(scheduleId) {
                 this.loading = true;
                 this.error = false;
-                const authStore = userAuthStore();
+                const authStore = useAuthStore();
                 await ScheduleService.delete(scheduleId)
                     .then(response => {
                         console.log(response);
