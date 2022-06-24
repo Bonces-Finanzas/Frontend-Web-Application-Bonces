@@ -271,7 +271,7 @@
                     color="accent"
                     background-color="blue-grey lighten-5"
                     solo
-                    :rules="[rules.required,rules.isPositive,rules.isInteger]"
+                    :rules="[rules.required,rules.isInteger]"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -1061,25 +1061,24 @@ export default {
     this.results.profitabilityResults = this.scheduleCurrentData.profitabilityResults;
     this.results.structuringResults = this.scheduleCurrentData.structuringResults;
     this.quotasData.quotas = this.scheduleCurrentData.quotas;
-    this.quotasData.quotas = this.quotasData.quotas.map(function(_quota){
+    this.quotasData.quotas = this.quotasData.quotas.map((_quota)=>{
       var newQuota = {
-          id: _quota.id,
           numberOfQuota: _quota.numberOfQuota,
           scheduledDate:_quota.scheduledDate,
           typeOfGracePeriod: _quota.typeOfGracePeriod,
           bond : this.toCorrectValueDecimal(_quota.bond),
-          indexedBond: _quota.indexedBond,
-          coupon : _quota.coupon,
-          quota : _quota.quota,
-          amortization : _quota.amortization ,
-          premium : _quota.premium,
-          shield : _quota.shield,
-          emitterStream : _quota.emitterStream,
-          emitterFlowWithShield : _quota.emitterFlowWithShield,
-          boundHolderFlow : _quota.boundHolderFlow,
-          currentFlow : _quota.currentFlow,
-          currentFlowPerPeriod : _quota.currentFlowPerPeriod,
-          convexityFactor : _quota.convexityFactor  
+          indexedBond: this.toCorrectValueDecimal(_quota.indexedBond),
+          coupon : this.toCorrectValueDecimal(_quota.coupon),
+          quota : this.toCorrectValueDecimal(_quota.quota),
+          amortization : this.toCorrectValueDecimal(_quota.amortization) ,
+          premium : this.toCorrectPercentDecimal(_quota.premium),
+          shield : this.toCorrectValueDecimal(_quota.shield),
+          emitterStream : this.toCorrectValueDecimal(_quota.emitterStream),
+          emitterFlowWithShield : this.toCorrectValueDecimal(_quota.emitterFlowWithShield),
+          boundHolderFlow :this.toCorrectValueDecimal(_quota.boundHolderFlow),
+          currentFlow : this.toCorrectValueDecimal(_quota.currentFlow),
+          currentFlowPerPeriod :this.toCorrectValueDecimal(_quota.currentFlowPerPeriod),
+          convexityFactor :this.toCorrectValueDecimal(_quota.convexityFactor)    
       }
       return newQuota
     })
