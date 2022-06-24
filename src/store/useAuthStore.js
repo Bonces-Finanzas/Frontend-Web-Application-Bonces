@@ -30,6 +30,7 @@ export const useAuthStore = defineStore({
         logout() {
           this.user = null;
           localStorage.clear();
+          router.push("/");
         },
         async register(user) {
             this.loading = true;

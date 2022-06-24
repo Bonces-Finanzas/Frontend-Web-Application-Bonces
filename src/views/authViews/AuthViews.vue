@@ -34,7 +34,7 @@ export default {
         { name: "Calculatora", path: "/auth", action: () => {} },
         { name: "Historial", path: "/auth/history", action: () => {} },
         { name: "Mi perfil", path: "/auth/my-profile", action: () => {} },
-        { name: "Cerrar sesión", path: "/", action: this.logout }
+        { name: "Cerrar sesión", path: "", action: this.logout }
       ],
       authStore: useAuthStore()
     }
