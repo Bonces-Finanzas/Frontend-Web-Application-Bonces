@@ -54,7 +54,7 @@
                     v-model="form.scheduleData.boundData.nominalValue"
                     color="accent"
                     background-color="blue-grey lighten-5"
-                    prefix="s/"
+                    prefix = ''
                     solo
                     :rules="[rules.required,rules.isPositive]"
                 ></v-text-field>
@@ -70,7 +70,7 @@
                     v-model="form.scheduleData.boundData.commercialValue"
                     color="accent"
                     background-color="blue-grey lighten-5"
-                    prefix="s/"
+                    prefix=" "
                     solo
                     :rules="[rules.required,rules.isPositive]"
                 ></v-text-field>
@@ -262,34 +262,34 @@
 
             <v-row>
               <v-col cols="4">
-                <v-subheader class="font-weight-medium">Periodo de gracia</v-subheader>
-              </v-col>
-              <v-col cols="8">
-                <v-text-field
-                    v-model="form.scheduleData.boundData.gracePeriod"
-                    suffix="%"
-                    color="accent"
-                    background-color="blue-grey lighten-5"
-                    solo
-                    :rules="[rules.required,rules.isInteger]"
-                ></v-text-field>
-              </v-col>
-            </v-row>
-
-             <v-row>
-              <v-col cols="4">
-                <v-subheader class="font-weight-medium">Tipo de periodo de gracias</v-subheader>
+                <v-subheader class="font-weight-medium">Tipo de periodo de gracia</v-subheader>
               </v-col>
               <v-col cols="8">
                 <v-select
                     v-model="form.scheduleData.boundData.typeOfGracePeriod"
-                    :items="form.items.typeOfGracePeriodItems"
+                    :items='isAmtypeOfGracePeriodItem()'
                     persistent-hint
                     color="accent"
                     background-color="blue-grey lighten-5"
                     solo
                     :rules=[rules.required]
                 ></v-select>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="4">
+                <v-subheader v-if="isStypePeriod()" class="font-weight-medium">Periodo de gracia</v-subheader>
+              </v-col>
+              <v-col cols="8">
+                <v-text-field
+                    v-if="isStypePeriod()"
+                    v-model="form.scheduleData.boundData.gracePeriod"
+                    color="accent"
+                    background-color="blue-grey lighten-5"
+                    solo
+                    :rules="[rules.required,rules.isInteger]"
+                ></v-text-field>
               </v-col>
             </v-row>
 
@@ -379,6 +379,7 @@
 
           </v-col>
         </v-row>
+        
         <v-btn
             v-if="!scheduleStore.loading"
             color="secondary"
@@ -836,11 +837,7 @@ export default {
             'Semestral',
             'Anual'
           ],
-          typeOfGracePeriodItems:[
-            'S',
-            'T',
-            'P'
-          ]
+          
         },
         isValid: false,
         issueDateMenu: false,
@@ -863,8 +860,6 @@ export default {
               value: 'numberOfQuota',
             },
             { text: 'Fecha Programada', value: 'scheduledDate' },
-            { text: 'Inflación Anual', value: 0 },
-            { text: 'Inflacion Semestral', value: 0 },
             { text: 'Plazo de Gracia', value: 'typeOfGracePeriod' },
             { text: 'Bono', value: 'bond' },
             { text: 'Bono Indexado', value: 'indexedBond' },
@@ -897,6 +892,16 @@ export default {
     }
   },
   methods: {
+    isStypePeriod(){
+       if(this.form.scheduleData.boundData.typeOfGracePeriod=='S'){
+         this.form.scheduleData.boundData.gracePeriod = 0
+         return false
+        }
+        return true
+    },
+   isAmtypeOfGracePeriodItem(){
+        return this.form.scheduleData.methodType=='Americano'?[ 'S','T',] :[ 'S','T','P']
+   },
     formatDate(date) {
       const fDate = new Date(date);
       return `${fDate.getDay()}/${fDate.getMonth()}/${fDate.getFullYear()}`;
@@ -962,6 +967,73 @@ export default {
           return "Null";
       }
     },
+    getConvertCapitalization(capitalization) {
+      switch (capitalization) {
+        case "DAILY":
+          return "Diario";
+        case "BIWEEKLY":
+          return "Quincenal";
+        case "MONTHLY":
+          return "Mensual";
+        case "BIMONTHLY":
+          return "Bimestral";
+        case "QUARTERLY":
+          return "Trimestral";
+        case "FOURMONTHLY":
+          return "Cuatrimestral";
+        case "SIXMONTHLY":
+          return "Semestral";
+        case "ANNUAL":
+          return "Anual";
+        default:
+          return "Null";
+      }
+    },
+     getConvertTypeInterestRate(typeInterestRate) {
+      if (typeInterestRate == "EFFECTIVE") return "Efectiva";
+      return "Nominal";
+    },
+    getConvertCouponFrequency(couponFrequency) {
+      switch (couponFrequency) {
+        case "MONTHLY":
+          return "Mensual";
+        case "BIMONTHLY":
+          return "Bimestral";
+        case "QUARTERLY":
+          return "Trimestral";
+        case "FOURMONTHLY":
+          return "Cuatrimestral";
+        case "SIXMONTHLY":
+          return "Semestral";
+        case "ANNUAL":
+          return "Anual";
+        default:
+          return "Null";
+      }
+    },
+    getConvertMethodType(method){
+      switch(method){
+        case "AMERICAN":
+         return "Americano";
+        case "FRENCH":
+         return "Francés";
+        case "GERMAN":
+          return "Alemán"
+      }
+    },
+      
+    toSymbol(coin){
+      switch(coin){
+        case "PEN":
+          return "\s";
+        case "USD":
+          return "$";
+        case "EUR":
+          return "€";
+        default :
+          return null   
+      }
+    },
     retrieveData(){
          const dataRetrieve = {
               methodType :this.getMethodType(this.form.scheduleData.methodType),
@@ -999,7 +1071,11 @@ export default {
           this.userId = this.authStore.user.id;
           console.log(data);
          if(this.scheduleCurrentData.hasOwnProperty('id')){
-          //Actualizar Schedule
+            await this.scheduleStore.updateSchedule(this.scheduleCurrentData.id,data).then(()=>{
+              this.updateShowResultsData();
+              this.showResults=true;
+            })
+
          }
          else  await this.scheduleStore.createSchedule(this.userId, data).
           then(()=>{
@@ -1009,26 +1085,30 @@ export default {
        }
        else this.scheduleStore.error = true
     },
+
+
     initForm() {
-            if(this.scheduleCurrentData.hasOwnProperty('id')){    
+            if(this.scheduleCurrentData.hasOwnProperty('id')){   
+               this.form.scheduleData.methodType = this.getConvertMethodType(this.scheduleCurrentData.methodType)
+               this.form.scheduleData.currencyType = this.scheduleCurrentData.currencyType
                this.form.scheduleData.boundData.nominalValue = this.scheduleCurrentData.boundData.nominalValue,
                this.form.scheduleData.boundData.commercialValue = this.scheduleCurrentData.boundData.commercialValue,
                this.form.scheduleData.boundData.years = this.scheduleCurrentData.boundData.years,
-               this.form.scheduleData.boundData.couponFrequency = this.scheduleCurrentData.boundData.couponFrequency,
+               this.form.scheduleData.boundData.couponFrequency =this.getConvertCouponFrequency(this.scheduleCurrentData.boundData.couponFrequency),
                this.form.scheduleData.boundData.daysYear = this.scheduleCurrentData.boundData.daysYear,
-               this.form.scheduleData.boundData.typeInterestRate = this.scheduleCurrentData.boundData.typeInterestRate,
-               this.form.scheduleData.boundData.capitalization = this.scheduleCurrentData.boundData.capitalization,
-               this.form.scheduleData.boundData.interestRate = this.scheduleCurrentData.boundData.interestRate,
-               this.form.scheduleData.boundData.annualDiscountRate = this.scheduleCurrentData.boundData.annualDiscountRate,
-               this.form.scheduleData.boundData.incomeTax = this.scheduleCurrentData.boundData.incomeTax,
-               this.form.scheduleData.boundData.issue = this.scheduleCurrentData.boundData.issue,
+               this.form.scheduleData.boundData.typeInterestRate =this.getConvertTypeInterestRate(this.scheduleCurrentData.boundData.typeInterestRate),
+               this.form.scheduleData.boundData.capitalization =this.getConvertCapitalization(this.scheduleCurrentData.boundData.capitalization),
+               this.form.scheduleData.boundData.interestRate = (this.scheduleCurrentData.boundData.interestRate)*100,
+               this.form.scheduleData.boundData.annualDiscountRate = (this.scheduleCurrentData.boundData.annualDiscountRate)*100,
+               this.form.scheduleData.boundData.incomeTax = (this.scheduleCurrentData.boundData.incomeTax)*100,
+               this.form.scheduleData.boundData.issue =(this.scheduleCurrentData.boundData.issue),
                this.form.scheduleData.boundData.gracePeriod = this.scheduleCurrentData.boundData.gracePeriod,
                this.form.scheduleData.boundData.typeOfGracePeriod = this.scheduleCurrentData.boundData.typeOfGracePeriod,
-               this.form.scheduleData.initialCostData.premium = this.scheduleCurrentData.initialCostData.premium,
-               this.form.scheduleData.initialCostData.structuring = this.scheduleCurrentData.initialCostData.structuring,
-               this.form.scheduleData.initialCostData.collocation = this.scheduleCurrentData.initialCostData.collocation,
-               this.form.scheduleData.initialCostData.floatation = this.scheduleCurrentData.initialCostData.floatation,
-               this.form.scheduleData.initialCostData.cavali= this.scheduleCurrentData.initialCostData.cavali
+               this.form.scheduleData.initialCostData.premium = (this.scheduleCurrentData.initialCostData.premium)*100,
+               this.form.scheduleData.initialCostData.structuring = (this.scheduleCurrentData.initialCostData.structuring)*100,
+               this.form.scheduleData.initialCostData.collocation = (this.scheduleCurrentData.initialCostData.collocation)*100,
+               this.form.scheduleData.initialCostData.floatation = (this.scheduleCurrentData.initialCostData.floatation)*100,
+               this.form.scheduleData.initialCostData.cavali= (this.scheduleCurrentData.initialCostData.cavali)*100,
                this.updateShowResultsData()
             }
             else {
@@ -1050,7 +1130,6 @@ export default {
             this.form.scheduleData.initialCostData.collocation = '',
             this.form.scheduleData.initialCostData.floatation = '',
             this.form.scheduleData.initialCostData.cavali= ''
-
             }
     },
     updateShowResultsData(){
