@@ -380,16 +380,27 @@
           </v-col>
         </v-row>
         <v-btn
-            align="center"
+            v-if="!scheduleStore.loading"
             color="secondary"
             class="py-5 mb-5"
+            block
+            align="center"
             x-large
             @click="onSubmit"
             :style="{left: '50%', transform:'translateX(-50%)'}"
                  >
           Calcular
-        </v-btn
-         >
+        </v-btn>
+         <div
+          v-else
+          class="flex d-flex"
+      >
+        <v-progress-circular
+            indeterminate
+            color="primary"
+            class="mx-auto mb-5"
+        ></v-progress-circular>
+      </div>
       </v-container>
     </v-form>
     <v-snackbar
@@ -747,6 +758,8 @@
             :headers="quotasData.headers"
             :items="quotasData.quotas"
             :search="quotasData.search"
+            :sort-by.sync="quotasData.sortBy"
+            :sort-desc.sync="quotasData.sortDesc"
           ></v-data-table>
         </v-card>
       </v-container>
@@ -842,16 +855,16 @@ export default {
       },
       quotasData :{
           search: '',
+          sortBy: 'numberOfQuota',
+          sortDesc: false,
           headers: [
             {
               text: 'Nº',
-              align: 'start',
-              sortable:true,
               value: 'numberOfQuota',
             },
             { text: 'Fecha Programada', value: 'scheduledDate' },
-            { text: 'Inflación Anual', value: 'fat' },
-            { text: 'Inflacion Semestral', value: 'carbs' },
+            { text: 'Inflación Anual', value: 0 },
+            { text: 'Inflacion Semestral', value: 0 },
             { text: 'Plazo de Gracia', value: 'typeOfGracePeriod' },
             { text: 'Bono', value: 'bond' },
             { text: 'Bono Indexado', value: 'indexedBond' },
@@ -875,7 +888,7 @@ export default {
         isInt: v => Number.isInteger(Number(v)) || 'Entero requerido',
         isPositive:v => Number(v) > 0 || 'Número positivo requerido',
       },
-      showResults: true,
+      showResults: false,
       timeout: 3000,
       userId: 0,
       scheduleCurrentData : Object,
@@ -990,7 +1003,8 @@ export default {
          }
          else  await this.scheduleStore.createSchedule(this.userId, data).
           then(()=>{
-            this.updateShowResultsData()
+            this.updateShowResultsData();
+            this.showResults=true;
           })
        }
        else this.scheduleStore.error = true
@@ -1039,15 +1053,17 @@ export default {
 
             }
     },
-    
     updateShowResultsData(){
     this.scheduleCurrentData = this.scheduleStore.schedule;
     console.log(this.scheduleCurrentData)
     this.results.resultsOfCurrentPriceAndProfit = (this.scheduleCurrentData.resultsOfCurrentPriceAndProfit);
     this.results.resultsOfDecisionRatio = this.scheduleCurrentData.resultsOfDecisionRatio;
     this.results.profitabilityResults = this.scheduleCurrentData.profitabilityResults;
-    this.results.structuringResults = this.scheduleCurrentData.structuringResults
-    this.quotasData.quotas = this.scheduleCurrentData.quotas
+    this.results.structuringResults = this.scheduleCurrentData.structuringResults;
+    this.quotasData.quotas = this.scheduleCurrentData.quotas;
+    this.quotasData.quotas = this.quotasData.quotas.map(function(quota){
+      console.log(1)
+    })
     console.log(this.results)
     },
     toCorrectValueDecimal(n){
