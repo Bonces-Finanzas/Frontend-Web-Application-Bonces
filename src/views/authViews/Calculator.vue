@@ -1061,8 +1061,27 @@ export default {
     this.results.profitabilityResults = this.scheduleCurrentData.profitabilityResults;
     this.results.structuringResults = this.scheduleCurrentData.structuringResults;
     this.quotasData.quotas = this.scheduleCurrentData.quotas;
-    this.quotasData.quotas = this.quotasData.quotas.map(function(quota){
-      console.log(1)
+    this.quotasData.quotas = this.quotasData.quotas.map(function(_quota){
+      var newQuota = {
+          id: _quota.id,
+          numberOfQuota: _quota.numberOfQuota,
+          scheduledDate:_quota.scheduledDate,
+          typeOfGracePeriod: _quota.typeOfGracePeriod,
+          bond : this.toCorrectValueDecimal(_quota.bond),
+          indexedBond: _quota.indexedBond,
+          coupon : _quota.coupon,
+          quota : _quota.quota,
+          amortization : _quota.amortization ,
+          premium : _quota.premium,
+          shield : _quota.shield,
+          emitterStream : _quota.emitterStream,
+          emitterFlowWithShield : _quota.emitterFlowWithShield,
+          boundHolderFlow : _quota.boundHolderFlow,
+          currentFlow : _quota.currentFlow,
+          currentFlowPerPeriod : _quota.currentFlowPerPeriod,
+          convexityFactor : _quota.convexityFactor  
+      }
+      return newQuota
     })
     console.log(this.results)
     },
