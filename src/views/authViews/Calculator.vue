@@ -54,7 +54,7 @@
                     v-model="form.scheduleData.boundData.nominalValue"
                     color="accent"
                     background-color="blue-grey lighten-5"
-                    prefix = ''
+                    :prefix = toSymbol(this.form.scheduleData.currencyType)
                     solo
                     :rules="[rules.required,rules.isPositive]"
                 ></v-text-field>
@@ -70,7 +70,7 @@
                     v-model="form.scheduleData.boundData.commercialValue"
                     color="accent"
                     background-color="blue-grey lighten-5"
-                    prefix=" "
+                    :prefix = toSymbol(this.form.scheduleData.currencyType)
                     solo
                     :rules="[rules.required,rules.isPositive]"
                 ></v-text-field>
