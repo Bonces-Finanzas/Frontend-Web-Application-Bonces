@@ -21,6 +21,36 @@
             <v-col class="col-12 col-md-6">
               <v-row>
                 <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Método</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8 pa-0">
+                  <v-text-field
+                      background-color="primary"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="getMethodType(schedule.methodType)"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Moneda</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8 pa-0">
+                  <v-text-field
+                      background-color="primary"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="schedule.currencyType"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col class="col-5 col-sm-4 pa-0">
                   <v-subheader class="font-weight-medium">Valor Nominal</v-subheader>
                 </v-col>
                 <v-col class="col-7 col-sm-8 pa-0">
@@ -95,7 +125,9 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
+            </v-col>
 
+            <v-col class="col-12 col-md-6">
               <v-row>
                 <v-col class="col-5 col-sm-4 pa-0">
                   <v-subheader class="font-weight-medium">Tipo de tasa de interés</v-subheader>
@@ -110,9 +142,7 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
-            </v-col>
 
-            <v-col class="col-12 col-md-6">
               <v-row>
                 <v-col class="col-5 col-sm-4 pa-0">
                   <v-subheader class="font-weight-medium">Capitalización</v-subheader>
@@ -313,65 +343,11 @@ export default {
       authStore: useAuthStore(),
       scheduleStore: useScheduleStore(),
       schedules: []
-      /*schedules: [
-        {
-          id: 1,
-          date: "2022-06-10T19:10:04.826Z",
-          createBoundDataResource: {
-            nominalValue: 1000,
-            commercialValue: 1050,
-            years: 5,
-            couponFrequency: "SIXMONTHLY",
-            daysYear: 360,
-            typeInterestRate: "EFFECTIVE",
-            capitalization: "MONTHLY",
-            interestRate: 0.08,
-            annualDiscountRate: 0.045,
-            incomeTax: 0.3,
-            issue: "2022-06-10T19:10:04.826Z",
-            gracePeriod: 0,
-            typeOfGracePeriod: "S"
-          },
-          createInitialCostDataResource: {
-            premium: 0.01,
-            structuring: 0.01,
-            collocation: 0.0025,
-            floatation: 0.0045,
-            cavali: 0.005
-          }
-        },
-        {
-          id: 2,
-          date: "2022-06-10T19:10:04.826Z",
-          createBoundDataResource: {
-            nominalValue: 1000,
-            commercialValue: 1050,
-            years: 5,
-            couponFrequency: "SIXMONTHLY",
-            daysYear: 360,
-            typeInterestRate: "EFFECTIVE",
-            capitalization: "MONTHLY",
-            interestRate: 0.08,
-            annualDiscountRate: 0.045,
-            incomeTax: 0.3,
-            issue: "2022-06-10T19:10:04.826Z",
-            gracePeriod: 0,
-            typeOfGracePeriod: "S"
-          },
-          createInitialCostDataResource: {
-            premium: 0.01,
-            structuring: 0.01,
-            collocation: 0.0025,
-            floatation: 0.0045,
-            cavali: 0.005
-          }
-        }
-      ]*/
     }
   },
   methods: {
     getTypeInterestRate(typeInterestRate) {
-      if (typeInterestRate == "EFFECTIVE") return "Efectiva";
+      if (typeInterestRate === "EFFECTIVE") return "Efectiva";
       return "Nominal";
     },
     getCouponFrequency(couponFrequency) {
@@ -414,6 +390,16 @@ export default {
           return "Null";
       }
     },
+    getMethodType(method) {
+      switch (method) {
+        case "AMERICAN":
+          return "Americano";
+        case "FRENCH":
+          return "Francés";
+        case "GERMAN":
+          return "Alemán"
+      }
+    },
     toPercent(n) {
       return Math.round(((n + Number.EPSILON) * 100) * 100000) / 100000;
     },
@@ -421,7 +407,7 @@ export default {
       const fDate = new Date(date);
       return `${fDate.getDay()}/${fDate.getMonth()}/${fDate.getFullYear()}`;
     },
-    onLoad() {
+    retrieveSchedules() {
       this.schedules = this.authStore.user.schedules;
     },
     seeSchedule(schedule) {
@@ -432,7 +418,7 @@ export default {
     }
   },
   mounted() {
-    this.onLoad();
+    this.retrieveSchedules();
   }
 }
 </script> 
