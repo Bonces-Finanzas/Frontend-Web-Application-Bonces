@@ -22,7 +22,7 @@
                     color="accent"
                     background-color="blue-grey lighten-5"
                     solo
-                    :rules=[rules.required]
+                    :rules="[rules.required]"
                 ></v-select>
               </v-col>
             </v-row>
@@ -39,7 +39,7 @@
                     color="accent"
                     background-color="blue-grey lighten-5"
                     solo
-                    :rules=[rules.required]
+                    :rules="[rules.required]"
                 ></v-select>
               </v-col>
             </v-row>
@@ -104,7 +104,7 @@
                     color="accent"
                     background-color="blue-grey lighten-5"
                     solo
-                    :rules=[rules.required]
+                    :rules="[rules.required]"
                 ></v-select>
               </v-col>
             </v-row>
@@ -272,7 +272,7 @@
                     color="accent"
                     background-color="blue-grey lighten-5"
                     solo
-                    :rules=[rules.required]
+                    :rules="[rules.required]"
                 ></v-select>
               </v-col>
             </v-row>
@@ -288,7 +288,7 @@
                     color="accent"
                     background-color="blue-grey lighten-5"
                     solo
-                    :rules="[rules.required,rules.isInteger]"
+                    :rules="[rules.required,rules.isInt]"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -413,7 +413,7 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                     color="secondary"
+                     color="red darken-1"
                      class="py-5 mb-5"
                      block
                      align="center"
@@ -432,15 +432,14 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
-                      color="green darken-1"
-                      text
+                      color="red darken-1"
+                      
                       @click="form.dialogCleanForm= false"
                     >
                       Cancelar
                     </v-btn>
                     <v-btn
                       color="green darken-1"
-                      text
                       @click="cleanForm()"
                     >
                       Sí
@@ -822,9 +821,10 @@
 <script>
 import { useScheduleStore } from "@/store/useScheduleStore";
 import { useAuthStore } from "@/store/useAuthStore";
-
+import { bus } from '@/main'
 export default {
   name: "Calculator",
+ 
   data () {
     return {
       form: {
@@ -1086,6 +1086,15 @@ export default {
           return null   
       }
     },
+    convertToUpdateData(data){
+       const updateData ={
+        methodType : data.methodType,
+        currencyType : data.currencyType,
+        updateBoundDataResource : data.createBoundDataResource,
+        updateInitialCostDataResource : data.createInitialCostDataResource
+       }
+       return updateData
+    },
     retrieveData(){
          const dataRetrieve = {
               methodType :this.getMethodType(this.form.scheduleData.methodType),
@@ -1119,27 +1128,32 @@ export default {
     
     async onSubmit() {
        if(this.$refs.form.validate()){
-          const data = this.retrieveData()
           this.userId = this.authStore.user.id;
+          
          if(this.scheduleCurrentData.hasOwnProperty('id')){
-            await this.scheduleStore.updateSchedule(this.scheduleCurrentData.id,data).then(()=>{
+             const updateData =this.convertToUpdateData(this.retrieveData());
+            await this.scheduleStore.updateSchedule(this.scheduleCurrentData.id,updateData).then(()=>{
               this.updateShowResultsData();
               this.showResults=true;
             })
-
          }
-         else  await this.scheduleStore.createSchedule(this.userId, data).
+         else { 
+          const data = this.retrieveData()
+          await this.scheduleStore.createSchedule(this.userId, data).
           then(()=>{
             this.updateShowResultsData();
-            this.showResults=true;
+            this.showResults=false;
           })
+         }
        }
        else this.scheduleStore.error = true
     },
+
    cleanForm(){
         this.scheduleStore.clearScheduleCalculatorForm();
         this.form.dialogCleanForm = false;
-        this.initForm();
+        this.showResults=false;
+        this.emptyValuesForm();
    },
     initForm() {
             if(this.scheduleCurrentData.hasOwnProperty('id')){   
@@ -1152,20 +1166,25 @@ export default {
                this.form.scheduleData.boundData.daysYear = this.scheduleCurrentData.boundData.daysYear,
                this.form.scheduleData.boundData.typeInterestRate =this.getConvertTypeInterestRate(this.scheduleCurrentData.boundData.typeInterestRate),
                this.form.scheduleData.boundData.capitalization =this.getConvertCapitalization(this.scheduleCurrentData.boundData.capitalization),
-               this.form.scheduleData.boundData.interestRate = (this.scheduleCurrentData.boundData.interestRate)*100,
-               this.form.scheduleData.boundData.annualDiscountRate = (this.scheduleCurrentData.boundData.annualDiscountRate)*100,
-               this.form.scheduleData.boundData.incomeTax = (this.scheduleCurrentData.boundData.incomeTax)*100,
-               this.form.scheduleData.boundData.issue =(this.scheduleCurrentData.boundData.issue),
+               this.form.scheduleData.boundData.interestRate = this.toCorrectPercentDecimal((this.scheduleCurrentData.boundData.interestRate)),
+               this.form.scheduleData.boundData.annualDiscountRate = this.toCorrectPercentDecimal((this.scheduleCurrentData.boundData.annualDiscountRate)),
+               this.form.scheduleData.boundData.incomeTax = this.toCorrectPercentDecimal((this.scheduleCurrentData.boundData.incomeTax)),
+               this.form.scheduleData.boundData.issue = (this.scheduleCurrentData.boundData.issue),
                this.form.scheduleData.boundData.gracePeriod = this.scheduleCurrentData.boundData.gracePeriod,
                this.form.scheduleData.boundData.typeOfGracePeriod = this.scheduleCurrentData.boundData.typeOfGracePeriod,
-               this.form.scheduleData.initialCostData.premium = (this.scheduleCurrentData.initialCostData.premium)*100,
-               this.form.scheduleData.initialCostData.structuring = (this.scheduleCurrentData.initialCostData.structuring)*100,
-               this.form.scheduleData.initialCostData.collocation = (this.scheduleCurrentData.initialCostData.collocation)*100,
-               this.form.scheduleData.initialCostData.floatation = (this.scheduleCurrentData.initialCostData.floatation)*100,
-               this.form.scheduleData.initialCostData.cavali= (this.scheduleCurrentData.initialCostData.cavali)*100,
-               this.updateShowResultsData()
+               this.form.scheduleData.initialCostData.premium =this.toCorrectPercentDecimal(this.scheduleCurrentData.initialCostData.premium),
+               this.form.scheduleData.initialCostData.structuring = this.toCorrectPercentDecimal((this.scheduleCurrentData.initialCostData.structuring)),
+               this.form.scheduleData.initialCostData.collocation = this.toCorrectPercentDecimal((this.scheduleCurrentData.initialCostData.collocation)),
+               this.form.scheduleData.initialCostData.floatation = this.toCorrectPercentDecimal((this.scheduleCurrentData.initialCostData.floatation)),
+               this.form.scheduleData.initialCostData.cavali= this.toCorrectPercentDecimal((this.scheduleCurrentData.initialCostData.cavali)),
+               this.updateShowResultsData();
+               this.showResults=true;
             }
             else {
+                 this.emptyValuesForm()
+            }
+    },
+    emptyValuesForm(){
             this.form.scheduleData.methodType = '',
             this.form.scheduleData.currencyType = '',
             this.form.scheduleData.boundData.nominalValue = '',
@@ -1186,11 +1205,10 @@ export default {
             this.form.scheduleData.initialCostData.collocation = '',
             this.form.scheduleData.initialCostData.floatation = '',
             this.form.scheduleData.initialCostData.cavali= ''
-            }
     },
+    
     updateShowResultsData(){
     this.scheduleCurrentData = this.scheduleStore.schedule;
-    console.log(this.scheduleCurrentData)
     this.results.resultsOfCurrentPriceAndProfit = (this.scheduleCurrentData.resultsOfCurrentPriceAndProfit);
     this.results.resultsOfDecisionRatio = this.scheduleCurrentData.resultsOfDecisionRatio;
     this.results.profitabilityResults = this.scheduleCurrentData.profitabilityResults;
@@ -1217,20 +1235,26 @@ export default {
       }
       return newQuota
     })
-    console.log(this.results)
+
     },
     toCorrectValueDecimal(n){
       return parseFloat(n).toFixed(2);
     },
     toCorrectPercentDecimal(n){
       return (parseFloat(n)*100).toFixed(7);
-    }
+    },
+     
   },
- 
-  mounted() {
+    created(){
+       let self = this;
+      bus.$on('showAll',()=> {
+      self.showResults = false;
+    });
+  },
+      mounted() {
       this.scheduleCurrentData=this.scheduleStore.schedule
       this.initForm();
-      console.log(this.scheduleCurrentData)
+   
   }
 }
 </script>

@@ -305,6 +305,7 @@
 <script>
 import {useScheduleStore} from "@/store/useScheduleStore";
 import {useAuthStore} from "@/store/useAuthStore";
+import { bus } from '@/main'
 
 export default {
   name: "History",
@@ -426,6 +427,7 @@ export default {
     },
     seeSchedule(schedule) {
       this.scheduleStore.seeSchedule(schedule);
+      bus.$emit('showAll')
     },
     editSchedule(schedule) {
       this.seeSchedule(schedule);
