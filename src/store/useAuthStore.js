@@ -32,6 +32,22 @@ export const useAuthStore = defineStore({
           localStorage.clear();
           router.push("/");
         },
+        async updateCurrentUser() {
+            this.loading = true;
+            this.error = false
+
+            const { id, name, lastName, password } = this.user;
+            await UserService.update(id,{ name, lastName, password })
+                .then(response => {
+                    this.user = response.data
+                    localStorage.setItem(USER, JSON.stringify(response.data))
+                })
+                .catch(e => {
+                    console.log(e);
+                    this.error = true
+                });
+            this.loading = false;
+        },
         async register(user) {
             this.loading = true;
             this.error = false
