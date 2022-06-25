@@ -57,7 +57,7 @@
                   <v-text-field
                       background-color="primary"
                       color="accent"
-                      prefix="s/"
+                      :prefix="toSymbol(schedule.currencyType)"
                       solo
                       readonly
                       :value="schedule.boundData.nominalValue"
@@ -73,7 +73,7 @@
                   <v-text-field
                       background-color="primary"
                       color="accent"
-                      prefix="s/"
+                      :prefix="toSymbol(schedule.currencyType)"
                       solo
                       readonly
                       :value="schedule.boundData.commercialValue"
@@ -125,9 +125,7 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
-            </v-col>
 
-            <v-col class="col-12 col-md-6">
               <v-row>
                 <v-col class="col-5 col-sm-4 pa-0">
                   <v-subheader class="font-weight-medium">Tipo de tasa de interés</v-subheader>
@@ -142,7 +140,9 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
+            </v-col>
 
+            <v-col class="col-12 col-md-6">
               <v-row>
                 <v-col class="col-5 col-sm-4 pa-0">
                   <v-subheader class="font-weight-medium">Capitalización</v-subheader>
@@ -218,6 +218,38 @@
                       solo
                       readonly
                       :value="formatDate(schedule.boundData.issue)"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Tipo de periodo de gracia</v-subheader>
+                </v-col>
+
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="primary"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="schedule.boundData.typeOfGracePeriod"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-row v-if="schedule.boundData.typeOfGracePeriod !== 'S'">
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Periodo de gracia</v-subheader>
+                </v-col>
+
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="primary"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="schedule.boundData.gracePeriod"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -399,6 +431,18 @@ export default {
           return "Francés";
         case "GERMAN":
           return "Alemán"
+      }
+    },
+    toSymbol(coin){
+      switch(coin){
+        case "PEN":
+          return "S/";
+        case "USD":
+          return "$";
+        case "EUR":
+          return "€";
+        default :
+          return null
       }
     },
     toPercent(n) {
