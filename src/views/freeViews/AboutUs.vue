@@ -9,7 +9,7 @@
           <h1 class="text-center mb-5">Propósito</h1>
           <p class="text-justify ma-auto text-h6 text-md-h5">
             Esta página esta diseñada para calcular el flujo de caja e indicadores financieros de un bono corporativo
-            desde la prespectiva de un bonista o inversor mediante el método Francés, Americano y Aleman.
+            desde la perspectiva de un bonista o inversor mediante el método Francés, Americano y Alemán.
           </p>
         </div>
       </v-col>

@@ -112,7 +112,7 @@
               text
               @click="legalNoticesDialog = false"
           >
-            I accept
+            Acepto
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -245,7 +245,7 @@
               text
               @click="privacyPolicyDialog = false"
           >
-            I accept
+            Acepto
           </v-btn>
         </v-card-actions>
       </v-card>

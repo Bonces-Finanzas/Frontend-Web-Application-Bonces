@@ -12,7 +12,7 @@
 
            <v-row>
               <v-col cols="4">
-                <v-subheader class="font-weight-medium">Método de amortization</v-subheader>
+                <v-subheader class="font-weight-medium">Método de amortización</v-subheader>
               </v-col>
               <v-col cols="8">
                 <v-select

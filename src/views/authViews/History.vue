@@ -259,7 +259,7 @@
         <v-col class="col-12 col-md-6 col-lg-4">
           <v-row>
             <v-col class="pa-0">
-              <v-card-title class="pt-0">Datos de bono</v-card-title>
+              <v-card-title class="pt-0">Datos de los costes</v-card-title>
             </v-col>
           </v-row>
 
