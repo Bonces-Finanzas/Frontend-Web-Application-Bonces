@@ -549,6 +549,7 @@
                     <v-col class="col-7 col-sm-8  pa-0">
                       <v-text-field
                           background-color="blue-grey lighten-5"
+                          suffix="%"
                           color="accent"
                           solo
                           readonly
@@ -564,6 +565,7 @@
                     <v-col class="col-7 col-sm-8  pa-0">
                       <v-text-field
                           background-color="blue-grey lighten-5"
+                          suffix="%"
                           color="accent"
                           solo
                           readonly
@@ -574,11 +576,12 @@
     
                <v-row>
                     <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">COK Semestral</v-subheader>
+                      <v-subheader class="font-weight-medium"> Cok {{form.scheduleData.boundData.couponFrequency}}</v-subheader>
                     </v-col>
                     <v-col class="col-7 col-sm-8  pa-0">
                       <v-text-field
                           background-color="blue-grey lighten-5"
+                          suffix="%"
                           color="accent"
                           solo
                           readonly
@@ -595,6 +598,7 @@
                       <v-text-field
                           background-color="blue-grey lighten-5"
                           color="accent"
+                          :prefix = toSymbol(this.form.scheduleData.currencyType)
                           solo
                           readonly
                           :value="toCorrectValueDecimal(results.structuringResults.initialCostsEmitter)"
@@ -609,6 +613,7 @@
                     <v-col class="col-7 col-sm-8  pa-0">
                       <v-text-field
                           background-color="blue-grey lighten-5"
+                          :prefix = toSymbol(this.form.scheduleData.currencyType)
                           color="accent"
                           solo
                           readonly
@@ -628,6 +633,7 @@
                     <v-col class="col-7 col-sm-8  pa-0">
                       <v-text-field
                           background-color="blue-grey lighten-5"
+                          :prefix = toSymbol(this.form.scheduleData.currencyType)
                           color="accent"
                           solo
                           readonly
@@ -643,6 +649,7 @@
                     <v-col class="col-7 col-sm-8  pa-0">
                       <v-text-field
                           background-color="blue-grey lighten-5"
+                          :prefix = toSymbol(this.form.scheduleData.currencyType)
                           color="accent"
                           solo
                           readonly
@@ -727,13 +734,24 @@
                     <v-col class="col-7 col-sm-8  pa-0">
                       <v-text-field
                           background-color="blue-grey lighten-5"
+                          suffix="%"
                           color="accent"
                           solo
                           readonly
                           :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTcea)"
                       ></v-text-field>
+                    </v-col>
+              </v-row>
+
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">TIR TCEA Emisor</v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
+            
                       <v-text-field
                           background-color="blue-grey lighten-5"
+                          suffix="%"
                           color="accent"
                           solo
                           readonly
@@ -741,7 +759,7 @@
                       ></v-text-field>
                     </v-col>
               </v-row>
-  
+
               <v-row>
                     <v-col class="col-5 col-sm-4 pa-0">
                       <v-subheader class="font-weight-medium">TCEA Emisor c/Escudo</v-subheader>
@@ -749,13 +767,23 @@
                     <v-col class="col-7 col-sm-8  pa-0">
                       <v-text-field
                           background-color="blue-grey lighten-5"
+                          suffix="%"
                           color="accent"
                           solo
                           readonly
                           :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTceaWithShield)"
                       ></v-text-field>
+                    </v-col>
+              </v-row>
+
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium">TIR TCEA Emisor c/Escudo </v-subheader>
+                    </v-col>
+                    <v-col class="col-7 col-sm-8  pa-0">
                       <v-text-field
                           background-color="blue-grey lighten-5"
+                          suffix="%"
                           color="accent"
                           solo
                           readonly
@@ -763,6 +791,7 @@
                       ></v-text-field>
                     </v-col>
               </v-row>
+  
   
               <v-row>
                     <v-col class="col-5 col-sm-4 pa-0">
@@ -772,13 +801,24 @@
                     <v-col class="col-7 col-sm-8  pa-0">
                       <v-text-field
                           background-color="blue-grey lighten-5"
+                          suffix="%"
                           color="accent"
                           solo
                           readonly
                           :value="toCorrectPercentDecimal(results.profitabilityResults.bondHolderTrea)"
                       ></v-text-field>
+                    </v-col>       
+              </v-row>
+
+              <v-row>
+                    <v-col class="col-5 col-sm-4 pa-0">
+                      <v-subheader class="font-weight-medium"> TIR TREA Bonista</v-subheader>
+                    </v-col>
+  
+                    <v-col class="col-7 col-sm-8  pa-0">
                       <v-text-field
                           background-color="blue-grey lighten-5"
+                          suffix="%"
                           color="accent"
                           solo
                           readonly
