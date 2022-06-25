@@ -57,7 +57,7 @@
                   <v-text-field
                       background-color="primary"
                       color="accent"
-                      prefix="s/"
+                      :prefix="toSymbol(schedule.currencyType)"
                       solo
                       readonly
                       :value="schedule.boundData.nominalValue"
@@ -73,7 +73,7 @@
                   <v-text-field
                       background-color="primary"
                       color="accent"
-                      prefix="s/"
+                      :prefix="toSymbol(schedule.currencyType)"
                       solo
                       readonly
                       :value="schedule.boundData.commercialValue"
@@ -398,6 +398,18 @@ export default {
           return "Francés";
         case "GERMAN":
           return "Alemán"
+      }
+    },
+    toSymbol(coin){
+      switch(coin){
+        case "PEN":
+          return "S/";
+        case "USD":
+          return "$";
+        case "EUR":
+          return "€";
+        default :
+          return null
       }
     },
     toPercent(n) {
