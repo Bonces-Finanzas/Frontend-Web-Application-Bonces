@@ -1,21 +1,23 @@
 <template>
-  <v-footer color="accent" class="pa-5 footer white--text" app width="auto">
-    <span>
+  <v-footer color="accent" class="pa-5 footer white--text flex-column flex-md-row" app width="auto">
+    <span class="text-h6">
       <strong>Bonces</strong>
     </span>
-    <span class="mx-5">|</span>
+
+    <span class="mx-5 d-none d-md-flex">|</span>
     <span>Todos los derechos reservados</span>
 
+    <v-divider class="white my-5 mx-0 d-md-none" inset style="width: 100%"></v-divider>
 
     <v-btn
-        class="primary--text ml-auto"
+        class="primary--text ml-md-auto"
         text
         @click="legalNoticesDialog = true"
     >
       Avisos legales
     </v-btn>
     <v-btn
-        class="primary--text ml-5"
+        class="primary--text ml-md-5"
         text
         @click="privacyPolicyDialog = true"
     >
