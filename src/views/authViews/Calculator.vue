@@ -376,12 +376,10 @@
                 ></v-text-field>
               </v-col>
             </v-row>
-
           </v-col>
         </v-row>
-         <v-container>
            <v-row justify="center">
-            <v-col cols="4" >
+            <v-col class="col-7 col-sm-8  pa-0" >
               <v-btn
                   v-if="!scheduleStore.loading"
                   color="secondary"
@@ -405,7 +403,7 @@
             </div>
            </v-col>
 
-           <v-col cols="4" >
+           <v-col class="col-7 col-sm-8  pa-0" >
             <v-dialog
                 v-model="form.dialogCleanForm"
                 persistent
@@ -449,7 +447,7 @@
               </v-dialog>
            </v-col>
           </v-row>
-        </v-container>
+        
 
       </v-container>
     </v-form>
