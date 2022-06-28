@@ -1037,7 +1037,7 @@ export default {
     },
     getCapitalization(capitalization) {
       switch (capitalization) {
-        case "Diario":Diario
+        case "Diario":
           return "DAILY";
         case "Quincenal":
           return "BIWEEKLY";
