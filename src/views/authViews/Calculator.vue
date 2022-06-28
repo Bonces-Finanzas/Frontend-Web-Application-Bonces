@@ -1,8 +1,8 @@
 <template>
   <v-container>
     <v-form
-    ref="form"
-    v-model="form.isValid"
+        ref="form"
+        v-model="form.isValid"
     >
       <v-container fluid>
         <h1 class="text-left mb-10">Ingreso de Datos</h1>
@@ -10,7 +10,7 @@
           <v-col class="col-12 col-sm-8 col-md-5 mx-auto flex">
             <h2 class="text-center mb-10"><span>Datos del Bono</span></h2>
 
-           <v-row>
+            <v-row>
               <v-col cols="4">
                 <v-subheader class="font-weight-medium">Método de amortización</v-subheader>
               </v-col>
@@ -43,8 +43,8 @@
                 ></v-select>
               </v-col>
             </v-row>
-            
-            
+
+
             <v-row>
               <v-col cols="4">
                 <v-subheader class="font-weight-medium">Valor Nominal</v-subheader>
@@ -54,7 +54,7 @@
                     v-model="form.scheduleData.boundData.nominalValue"
                     color="accent"
                     background-color="blue-grey lighten-5"
-                    :prefix = toSymbol(this.form.scheduleData.currencyType)
+                    :prefix=toSymbol(this.form.scheduleData.currencyType)
                     solo
                     :rules="[rules.required,rules.isPositive]"
                 ></v-text-field>
@@ -70,7 +70,7 @@
                     v-model="form.scheduleData.boundData.commercialValue"
                     color="accent"
                     background-color="blue-grey lighten-5"
-                    :prefix = toSymbol(this.form.scheduleData.currencyType)
+                    :prefix=toSymbol(this.form.scheduleData.currencyType)
                     solo
                     :rules="[rules.required,rules.isPositive]"
                 ></v-text-field>
@@ -214,9 +214,9 @@
               <v-col cols="8">
                 <v-menu
                     ref="menu"
-                    v-model="form.scheduleData.issueDateMenu"
+                    v-model="form.issueDateMenu"
                     :close-on-content-click="false"
-                    :return-value.sync="form.issue"
+                    :return-value.sync="form.scheduleData.boundData.issue"
                     transition="scale-transition"
                     offset-y
                     min-width="auto"
@@ -243,7 +243,7 @@
                     <v-btn
                         text
                         color="primary"
-                        @click="form.scheduleData.issueDateMenu = false"
+                        @click="form.issueDateMenu = false"
                     >
                       Cancel
                     </v-btn>
@@ -293,7 +293,7 @@
               </v-col>
             </v-row>
 
-          </v-col >
+          </v-col>
           <v-col class="col-12 col-sm-8 col-md-5 mx-auto flex">
             <h2 class="text-center mb-10">Datos de los costes</h2>
             <v-row>
@@ -378,76 +378,76 @@
             </v-row>
           </v-col>
         </v-row>
-           <v-row justify="center">
-            <v-col class="col-7 col-sm-8  pa-0" >
-              <v-btn
-                  v-if="!scheduleStore.loading"
-                  color="secondary"
-                  class="py-5 mb-5"
-                  block
-                  align="center"
-                  x-large
-                  @click="onSubmit"
-                       >
-                Calcular
-              </v-btn>
-             <div
-              v-else
-              class="flex d-flex"
-      >    
-            <v-progress-circular
-                indeterminate
-                color="primary"
-                class="mx-auto mb-5"
-            ></v-progress-circular>
+        <v-row justify="center">
+          <v-col class="col-7 col-sm-8  pa-0">
+            <v-btn
+                v-if="!scheduleStore.loading"
+                color="secondary"
+                class="py-5 mb-5"
+                block
+                align="center"
+                x-large
+                @click="onSubmit"
+            >
+              Calcular
+            </v-btn>
+            <div
+                v-else
+                class="flex d-flex"
+            >
+              <v-progress-circular
+                  indeterminate
+                  color="primary"
+                  class="mx-auto mb-5"
+              ></v-progress-circular>
             </div>
-           </v-col>
+          </v-col>
 
-           <v-col class="col-7 col-sm-8  pa-0" >
+          <v-col class="col-7 col-sm-8  pa-0">
             <v-dialog
                 v-model="form.dialogCleanForm"
                 persistent
                 max-width="290"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                     color="red darken-1"
-                     class="py-5 mb-5"
-                     block
-                     align="center"
-                     x-large
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    color="red darken-1"
+                    class="py-5 mb-5"
+                    block
+                    align="center"
+                    x-large
                     v-bind="attrs"
                     v-on="on"
-                  >
-                    Limpiar
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-title class="text-h5">
-                    ¿Está seguro de borrar el formulario?
-                  </v-card-title>
-                  <v-card-text>Se perderán todos los datos avanzados</v-card-text>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
+                >
+                  Limpiar
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="text-h5">
+                  ¿Está seguro de borrar el formulario?
+                </v-card-title>
+                <v-card-text>Se perderán todos los datos avanzados</v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
                       color="red darken-1"
-                      
+
                       @click="form.dialogCleanForm= false"
-                    >
-                      Cancelar
-                    </v-btn>
-                    <v-btn
+                  >
+                    Cancelar
+                  </v-btn>
+                  <v-btn
                       color="green darken-1"
                       @click="cleanForm()"
-                    >
-                      Sí
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-           </v-col>
-          </v-row>
-        
+                  >
+                    Sí
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-col>
+        </v-row>
+
 
       </v-container>
     </v-form>
@@ -470,7 +470,7 @@
       </template>
     </v-snackbar>
     <v-container
-     v-if="showResults"
+        v-if="showResults"
     >
       <v-container>
         <h1>Resultados</h1>
@@ -481,350 +481,351 @@
               <h2>Resultados de la Estructuración<br>del bono</h2>
               <br>
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">Frecuencia del Cupon</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          color="accent"
-                          solo
-                          readonly
-                          :value="results.structuringResults.couponFrequencyDays"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Frecuencia del Cupon</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="results.structuringResults.couponFrequencyDays"
+                  ></v-text-field>
+                </v-col>
               </v-row>
-    
+
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">Dias Capitalización</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          color="accent"
-                          solo
-                          readonly
-                          :value="results.structuringResults.capitalizationDays"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Dias Capitalización</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="results.structuringResults.capitalizationDays"
+                  ></v-text-field>
+                </v-col>
               </v-row>
-    
+
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">Nº Periodos por año</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          color="accent"
-                          solo
-                          readonly
-                          :value="results.structuringResults.periodsPerYear"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Nº Periodos por año</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="results.structuringResults.periodsPerYear"
+                  ></v-text-field>
+                </v-col>
               </v-row>
-    
+
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">Nº Total de Periodos</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          color="accent"
-                          solo
-                          readonly
-                          :value="results.structuringResults.totalNumberOfPeriods"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Nº Total de Periodos</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="results.structuringResults.totalNumberOfPeriods"
+                  ></v-text-field>
+                </v-col>
               </v-row>
-              
+
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">Tasa Efectiva Anual</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          suffix="%"
-                          color="accent"
-                          solo
-                          readonly
-                          :value="toCorrectPercentDecimal(results.structuringResults.effectiveAnnualRate)"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Tasa Efectiva Anual</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      suffix="%"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectPercentDecimal(results.structuringResults.effectiveAnnualRate)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
-    
+
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">Tasa Efectiva Semestral</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          suffix="%"
-                          color="accent"
-                          solo
-                          readonly
-                          :value="toCorrectPercentDecimal(results.structuringResults.effectiveRate)"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Tasa Efectiva Semestral</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      suffix="%"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectPercentDecimal(results.structuringResults.effectiveRate)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
-    
-               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium"> Cok {{form.scheduleData.boundData.couponFrequency}}</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          suffix="%"
-                          color="accent"
-                          solo
-                          readonly
-                          :value="toCorrectPercentDecimal(results.structuringResults.cok)"
-                      ></v-text-field>
-                    </v-col>
-              </v-row>
-    
+
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">Costes Iniciales Emisor</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          color="accent"
-                          :prefix = toSymbol(this.form.scheduleData.currencyType)
-                          solo
-                          readonly
-                          :value="toCorrectValueDecimal(results.structuringResults.initialCostsEmitter)"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium"> Cok {{ form.scheduleData.boundData.couponFrequency }}
+                  </v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      suffix="%"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectPercentDecimal(results.structuringResults.cok)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
-    
-                <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">Costes Iniciales Bonista</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          :prefix = toSymbol(this.form.scheduleData.currencyType)
-                          color="accent"
-                          solo
-                          readonly
-                          :value="toCorrectValueDecimal(results.structuringResults.initialCostsBondholder)"
-                      ></v-text-field>
-                    </v-col>
+
+              <v-row>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Costes Iniciales Emisor</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      color="accent"
+                      :prefix=toSymbol(this.form.scheduleData.currencyType)
+                      solo
+                      readonly
+                      :value="toCorrectValueDecimal(results.structuringResults.initialCostsEmitter)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
-            </div> 
-  
+
+              <v-row>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Costes Iniciales Bonista</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      :prefix=toSymbol(this.form.scheduleData.currencyType)
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectValueDecimal(results.structuringResults.initialCostsBondholder)"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </div>
+
             <div>
               <h2>Resultados del precio actual y<br>utilidad</h2>
               <br>
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">Precio Actual</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          :prefix = toSymbol(this.form.scheduleData.currencyType)
-                          color="accent"
-                          solo
-                          readonly
-                          :value="toCorrectValueDecimal(results.resultsOfCurrentPriceAndProfit.currentPrice)"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Precio Actual</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      :prefix=toSymbol(this.form.scheduleData.currencyType)
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectValueDecimal(results.resultsOfCurrentPriceAndProfit.currentPrice)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
-    
+
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">Utilidad/Pérdida</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          :prefix = toSymbol(this.form.scheduleData.currencyType)
-                          color="accent"
-                          solo
-                          readonly
-                          :value="toCorrectValueDecimal(results.resultsOfCurrentPriceAndProfit.lostProfit)"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Utilidad/Pérdida</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      :prefix=toSymbol(this.form.scheduleData.currencyType)
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectValueDecimal(results.resultsOfCurrentPriceAndProfit.lostProfit)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
             </div>
-  
+
           </v-col>
           <v-col class="col-12 col-sm-8 col-md-5 mx-auto flex">
             <div>
-              <h2>Resultados  de ratios de desición</h2>
+              <h2>Resultados de ratios de desición</h2>
               <br>
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">Duración</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          color="accent"
-                          solo
-                          readonly
-                           :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.duration)"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Duración</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.duration)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
-  
+
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">Convexidad</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          color="accent"
-                          solo
-                          readonly
-                          :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.convexity)"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Convexidad</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.convexity)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">Total</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          color="accent"
-                          solo
-                          readonly
-                          :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.total)"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Total</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.total)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
-     
+
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">Duración Modificada</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          color="accent"
-                          solo
-                          readonly
-                          :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.modifiedDuration)"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Duración Modificada</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectValueDecimal(results.resultsOfDecisionRatio.modifiedDuration)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
-            </div> 
-  
+            </div>
+
             <div>
-              <h2>Resultados  de los indicadores de rentabilidad</h2>
+              <h2>Resultados de los indicadores de rentabilidad</h2>
               <br>
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">TCEA Emisor</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          suffix="%"
-                          color="accent"
-                          solo
-                          readonly
-                          :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTcea)"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">TCEA Emisor</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      suffix="%"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTcea)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
 
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">TIR TCEA Emisor</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-            
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          suffix="%"
-                          color="accent"
-                          solo
-                          readonly
-                           :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTirTcea)"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">TIR TCEA Emisor</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      suffix="%"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTirTcea)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
 
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">TCEA Emisor c/Escudo</v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          suffix="%"
-                          color="accent"
-                          solo
-                          readonly
-                          :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTceaWithShield)"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">TCEA Emisor c/Escudo</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      suffix="%"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTceaWithShield)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
 
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">TIR TCEA Emisor c/Escudo </v-subheader>
-                    </v-col>
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          suffix="%"
-                          color="accent"
-                          solo
-                          readonly
-                          :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTirTceaWithShield)"
-                      ></v-text-field>
-                    </v-col>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">TIR TCEA Emisor c/Escudo</v-subheader>
+                </v-col>
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      suffix="%"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectPercentDecimal(results.profitabilityResults.emitterTirTceaWithShield)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
-  
-  
+
+
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium">TREA Bonista</v-subheader>
-                    </v-col>
-  
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          suffix="%"
-                          color="accent"
-                          solo
-                          readonly
-                          :value="toCorrectPercentDecimal(results.profitabilityResults.bondHolderTrea)"
-                      ></v-text-field>
-                    </v-col>       
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">TREA Bonista</v-subheader>
+                </v-col>
+
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      suffix="%"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectPercentDecimal(results.profitabilityResults.bondHolderTrea)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
 
               <v-row>
-                    <v-col class="col-5 col-sm-4 pa-0">
-                      <v-subheader class="font-weight-medium"> TIR TREA Bonista</v-subheader>
-                    </v-col>
-  
-                    <v-col class="col-7 col-sm-8  pa-0">
-                      <v-text-field
-                          background-color="blue-grey lighten-5"
-                          suffix="%"
-                          color="accent"
-                          solo
-                          readonly
-                           :value="toCorrectPercentDecimal(results.profitabilityResults.bondholderTirTrea)"
-                      ></v-text-field>
-                    </v-col>       
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium"> TIR TREA Bonista</v-subheader>
+                </v-col>
+
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      background-color="blue-grey lighten-5"
+                      suffix="%"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toCorrectPercentDecimal(results.profitabilityResults.bondholderTirTrea)"
+                  ></v-text-field>
+                </v-col>
               </v-row>
-            </div> 
+            </div>
           </v-col>
         </v-row>
       </v-container>
@@ -835,19 +836,19 @@
             Cronograma
             <v-spacer></v-spacer>
             <v-text-field
-              v-model="quotasData.search"
-              append-icon="mdi-magnify"
-              label="Buscar"
-              single-line
-              hide-details
+                v-model="quotasData.search"
+                append-icon="mdi-magnify"
+                label="Buscar"
+                single-line
+                hide-details
             ></v-text-field>
           </v-card-title>
           <v-data-table
-            :headers="quotasData.headers"
-            :items="quotasData.quotas"
-            :search="quotasData.search"
-            :sort-by.sync="quotasData.sortBy"
-            :sort-desc.sync="quotasData.sortDesc"
+              :headers="quotasData.headers"
+              :items="quotasData.quotas"
+              :search="quotasData.search"
+              :sort-by.sync="quotasData.sortBy"
+              :sort-desc.sync="quotasData.sortDesc"
           ></v-data-table>
         </v-card>
       </v-container>
@@ -857,19 +858,20 @@
 </template>
 
 <script>
-import { useScheduleStore } from "@/store/useScheduleStore";
-import { useAuthStore } from "@/store/useAuthStore";
-import { bus } from '@/main'
+import {useScheduleStore} from "@/store/useScheduleStore";
+import {useAuthStore} from "@/store/useAuthStore";
+import {bus} from '@/main'
+
 export default {
   name: "Calculator",
- 
-  data () {
+
+  data() {
     return {
       form: {
         scheduleData: {
-            methodType:'',
-            currencyType:'',
-            boundData: {
+          methodType: '',
+          currencyType: '',
+          boundData: {
             nominalValue: '',
             commercialValue: '',
             years: '',
@@ -884,7 +886,7 @@ export default {
             gracePeriod: '',
             typeOfGracePeriod: '',
           },
-            initialCostData: {
+          initialCostData: {
             premium: '',
             structuring: '',
             collocation: '',
@@ -892,20 +894,20 @@ export default {
             cavali: ''
           }
         },
-        items :{
+        items: {
           amortizationMethods: [
-             'Americano',
-             'Alemán',
-             'Francés',
+            'Americano',
+            'Alemán',
+            'Francés',
           ],
-           currencyTypeItems: [
-             'PEN',
-             'EUR',
-             'USD'
+          currencyTypeItems: [
+            'PEN',
+            'EUR',
+            'USD'
           ],
           interestRateTypeItems: [
-             'Efectiva',
-             'Nominal'
+            'Efectiva',
+            'Nominal'
           ],
           couponFrequencyItems: [
             'Mensual',
@@ -916,7 +918,7 @@ export default {
             'Anual'
           ],
           capitalizationItems: [
-            'Diario',  
+            'Diario',
             'Quincenal',
             'Mensual',
             'Bimestral',
@@ -925,99 +927,105 @@ export default {
             'Semestral',
             'Anual'
           ],
-          
+
         },
         isValid: false,
         issueDateMenu: false,
         dialogCleanForm: false,
 
       },
-     
-      results:{
-        resultsOfCurrentPriceAndProfit : Object,
-        resultsOfDecisionRatio : Object,
-        profitabilityResults : Object,
-        structuringResults : Object,
-        quotas : Object
+
+      results: {
+        resultsOfCurrentPriceAndProfit: Object,
+        resultsOfDecisionRatio: Object,
+        profitabilityResults: Object,
+        structuringResults: Object,
+        quotas: Object
       },
-      quotasData :{
-          search: '',
-          sortBy: 'numberOfQuota',
-          sortDesc: false,
-          headers: [
-            {
-              text: 'Nº',
-              value: 'numberOfQuota',
-            },
-            { text: 'Fecha Programada', value: 'scheduledDate' },
-            { text: 'Plazo de Gracia', value: 'typeOfGracePeriod' },
-            { text: 'Bono', value: 'bond' },
-            { text: 'Bono Indexado', value: 'indexedBond' },
-            { text: 'Cupón(Interes)', value: 'coupon' },
-            { text: 'Cuota', value: 'quota' },
-            { text: 'Amort.', value: 'amortization' },
-            { text: 'Prima', value: 'premium' },
-            { text: 'Escudo', value: 'shield' },
-            { text: 'Flujo emisor.', value: 'emitterStream' },
-            { text: 'Flujo emisor c/escudo', value: 'emitterFlowWithShield' },
-            { text: 'Flujo Bonista', value: 'boundHolderFlow' },
-            { text: 'Flujo Act.', value: 'currentFlow' },
-            { text: 'FA x Plazo.', value: 'currentFlowPerPeriod' },
-            { text: 'FA x Factor p/Plazo convexidad', value: 'convexityFactor' },
+      quotasData: {
+        search: '',
+        sortBy: 'numberOfQuota',
+        sortDesc: false,
+        headers: [
+          {
+            text: 'Nº',
+            value: 'numberOfQuota',
+          },
+          {text: 'Fecha Programada', value: 'scheduledDate'},
+          {text: 'Plazo de Gracia', value: 'typeOfGracePeriod'},
+          {text: 'Bono', value: 'bond'},
+          {text: 'Bono Indexado', value: 'indexedBond'},
+          {text: 'Cupón(Interes)', value: 'coupon'},
+          {text: 'Cuota', value: 'quota'},
+          {text: 'Amort.', value: 'amortization'},
+          {text: 'Prima', value: 'premium'},
+          {text: 'Escudo', value: 'shield'},
+          {text: 'Flujo emisor.', value: 'emitterStream'},
+          {text: 'Flujo emisor c/escudo', value: 'emitterFlowWithShield'},
+          {text: 'Flujo Bonista', value: 'boundHolderFlow'},
+          {text: 'Flujo Act.', value: 'currentFlow'},
+          {text: 'FA x Plazo.', value: 'currentFlowPerPeriod'},
+          {text: 'FA x Factor p/Plazo convexidad', value: 'convexityFactor'},
         ],
-        quotas:[]
+        quotas: []
       },
 
-      rules:{
+      rules: {
         required: v => !!v || 'Requerido',
         isInt: v => Number.isInteger(Number(v)) || 'Entero requerido',
-        isPositive:v => Number(v) > 0 || 'Número positivo requerido',
+        isPositive: v => Number(v) > 0 || 'Número positivo requerido',
       },
       showResults: false,
       timeout: 3000,
       userId: 0,
-      scheduleCurrentData : Object,
+      scheduleCurrentData: Object,
       scheduleStore: useScheduleStore(),
       authStore: useAuthStore()
     }
   },
   methods: {
-    isStypePeriod(){
-       if(this.form.scheduleData.boundData.typeOfGracePeriod=='S'){
-         this.form.scheduleData.boundData.gracePeriod = 0
-         return false
-        }
-        return true
+    isStypePeriod() {
+      if (this.form.scheduleData.boundData.typeOfGracePeriod == 'S') {
+        this.form.scheduleData.boundData.gracePeriod = 0
+        return false
+      }
+      return true
     },
-   isAmtypeOfGracePeriodItem(){
-        return this.form.scheduleData.methodType=='Americano'?[ 'S','T',] :[ 'S','T','P']
-   },
+    isAmtypeOfGracePeriodItem() {
+      return this.form.scheduleData.methodType == 'Americano' ? ['S', 'T',] : ['S', 'T', 'P']
+    },
     formatDate(date) {
       const fDate = new Date(date);
-      return `${fDate.getDay()}/${fDate.getMonth()}/${fDate.getFullYear()}`;
+      fDate.setDate(fDate.getDate() + 1);
+      return `${fDate.getDate()}/${fDate.getMonth()+1}/${fDate.getFullYear()}`;
     },
-     getMethodType(method){
-      switch(method){
+    formatDateForm(date) {
+      const fDate = new Date(date);
+      fDate.setDate(fDate.getDate() + 1);
+      return `${fDate.getFullYear()}-${fDate.getMonth() + 1}-${fDate.getDate()}`;
+    },
+    getMethodType(method) {
+      switch (method) {
         case "Americano":
-         return "AMERICAN";
+          return "AMERICAN";
         case "Francés":
-         return "FRENCH";
+          return "FRENCH";
         case "Alemán":
           return "GERMAN"
       }
-      
-     },
-     getInterestRateType(interestRateType){
-       switch(interestRateType){
+
+    },
+    getInterestRateType(interestRateType) {
+      switch (interestRateType) {
         case "Efectiva":
           return "EFFECTIVE";
         case "Nominal":
           return "NOMINAL";
         default:
-          return "Null";  
-       }
-     },
-     getCouponFrequency(couponFrequency) {
+          return "Null";
+      }
+    },
+    getCouponFrequency(couponFrequency) {
       switch (couponFrequency) {
         case "Mensual":
           return "MONTHLY";
@@ -1079,7 +1087,7 @@ export default {
           return "Null";
       }
     },
-     getConvertTypeInterestRate(typeInterestRate) {
+    getConvertTypeInterestRate(typeInterestRate) {
       if (typeInterestRate == "EFFECTIVE") return "Efectiva";
       return "Nominal";
     },
@@ -1101,19 +1109,19 @@ export default {
           return "Null";
       }
     },
-    getConvertMethodType(method){
-      switch(method){
+    getConvertMethodType(method) {
+      switch (method) {
         case "AMERICAN":
-         return "Americano";
+          return "Americano";
         case "FRENCH":
-         return "Francés";
+          return "Francés";
         case "GERMAN":
           return "Alemán"
       }
     },
-      
-    toSymbol(coin){
-      switch(coin){
+
+    toSymbol(coin) {
+      switch (coin) {
         case "PEN":
           return "S/";
         case "USD":
@@ -1121,187 +1129,182 @@ export default {
         case "EUR":
           return "€";
         default :
-          return null   
+          return null
       }
     },
-    convertToUpdateData(data){
-       const updateData ={
-        methodType : data.methodType,
-        currencyType : data.currencyType,
-        updateBoundDataResource : data.createBoundDataResource,
-        updateInitialCostDataResource : data.createInitialCostDataResource
-       }
-       return updateData
+    convertToUpdateData(data) {
+      const updateData = {
+        methodType: data.methodType,
+        currencyType: data.currencyType,
+        updateBoundDataResource: data.createBoundDataResource,
+        updateInitialCostDataResource: data.createInitialCostDataResource
+      }
+      return updateData
     },
-    retrieveData(){
-         const dataRetrieve = {
-              methodType :this.getMethodType(this.form.scheduleData.methodType),
-              currencyType : this.form.scheduleData.currencyType,
-              createBoundDataResource : {
-              nominalValue : parseFloat(this.form.scheduleData.boundData.nominalValue),
-              commercialValue : parseFloat(this.form.scheduleData.boundData.commercialValue),
-              years : parseInt(this.form.scheduleData.boundData.years),
-              couponFrequency: this.getCouponFrequency(this.form.scheduleData.boundData.couponFrequency),
-              daysYear : parseInt(this.form.scheduleData.boundData.daysYear),
-              typeInterestRate :this.getInterestRateType(this.form.scheduleData.boundData.typeInterestRate),
-              capitalization :this.getCapitalization(this.form.scheduleData.boundData.capitalization),
-              interestRate : (parseFloat(this.form.scheduleData.boundData.interestRate)/100),
-              annualDiscountRate : (parseFloat(this.form.scheduleData.boundData.annualDiscountRate)/100),
-              incomeTax : (parseFloat(this.form.scheduleData.boundData.incomeTax))/100,
-              issue : this.form.scheduleData.boundData.issue,
-              gracePeriod : parseFloat(this.form.scheduleData.boundData.gracePeriod),
-              typeOfGracePeriod : this.form.scheduleData.boundData.typeOfGracePeriod,
-            },
-            createInitialCostDataResource : {
-              premium : (parseFloat(this.form.scheduleData.initialCostData.premium)/100),
-              structuring : (parseFloat(this.form.scheduleData.initialCostData.structuring)/100),
-              collocation : (parseFloat(this.form.scheduleData.initialCostData.collocation)/100),
-              floatation : (parseFloat(this.form.scheduleData.initialCostData.floatation)/100),
-              cavali : (parseFloat(this.form.scheduleData.initialCostData.cavali)/100),
-            }
-         
+    retrieveData() {
+      const dataRetrieve = {
+        methodType: this.getMethodType(this.form.scheduleData.methodType),
+        currencyType: this.form.scheduleData.currencyType,
+        createBoundDataResource: {
+          nominalValue: parseFloat(this.form.scheduleData.boundData.nominalValue),
+          commercialValue: parseFloat(this.form.scheduleData.boundData.commercialValue),
+          years: parseInt(this.form.scheduleData.boundData.years),
+          couponFrequency: this.getCouponFrequency(this.form.scheduleData.boundData.couponFrequency),
+          daysYear: parseInt(this.form.scheduleData.boundData.daysYear),
+          typeInterestRate: this.getInterestRateType(this.form.scheduleData.boundData.typeInterestRate),
+          capitalization: this.getCapitalization(this.form.scheduleData.boundData.capitalization),
+          interestRate: (parseFloat(this.form.scheduleData.boundData.interestRate) / 100),
+          annualDiscountRate: (parseFloat(this.form.scheduleData.boundData.annualDiscountRate) / 100),
+          incomeTax: (parseFloat(this.form.scheduleData.boundData.incomeTax)) / 100,
+          issue: this.form.scheduleData.boundData.issue,
+          gracePeriod: parseFloat(this.form.scheduleData.boundData.gracePeriod),
+          typeOfGracePeriod: this.form.scheduleData.boundData.typeOfGracePeriod,
+        },
+        createInitialCostDataResource: {
+          premium: (parseFloat(this.form.scheduleData.initialCostData.premium) / 100),
+          structuring: (parseFloat(this.form.scheduleData.initialCostData.structuring) / 100),
+          collocation: (parseFloat(this.form.scheduleData.initialCostData.collocation) / 100),
+          floatation: (parseFloat(this.form.scheduleData.initialCostData.floatation) / 100),
+          cavali: (parseFloat(this.form.scheduleData.initialCostData.cavali) / 100),
+        }
+
       }
       return dataRetrieve
     },
-    
+
     async onSubmit() {
-       if(this.$refs.form.validate()){
-          this.userId = this.authStore.user.id;
-          
-         if(this.scheduleCurrentData.hasOwnProperty('id')){
-             const updateData =this.convertToUpdateData(this.retrieveData());
-            await this.scheduleStore.updateSchedule(this.scheduleCurrentData.id,updateData).then(()=>{
-              this.updateShowResultsData();
-              this.showResults=true;
-            })
-         }
-         else { 
-          const data = this.retrieveData()
-          await this.scheduleStore.createSchedule(this.userId, data).
-          then(()=>{
+      if (this.$refs.form.validate()) {
+        this.userId = this.authStore.user.id;
+
+        if (this.scheduleCurrentData.hasOwnProperty('id')) {
+          const updateData = this.convertToUpdateData(this.retrieveData());
+          await this.scheduleStore.updateSchedule(this.scheduleCurrentData.id, updateData).then(() => {
             this.updateShowResultsData();
-            this.showResults=false;
+            this.showResults = true;
           })
-         }
-       }
-       else this.scheduleStore.error = true
+        } else {
+          const data = this.retrieveData()
+          await this.scheduleStore.createSchedule(this.userId, data).then(() => {
+            this.updateShowResultsData();
+            this.showResults = false;
+          })
+        }
+      } else this.scheduleStore.error = true
     },
 
-   cleanForm(){
-        this.scheduleStore.clearScheduleCalculatorForm();
-        this.form.dialogCleanForm = false;
-        this.showResults=false;
-        this.emptyValuesForm();
-   },
+    cleanForm() {
+      this.scheduleStore.clearScheduleCalculatorForm();
+      this.form.dialogCleanForm = false;
+      this.showResults = false;
+      this.emptyValuesForm();
+    },
     initForm() {
-            if(this.scheduleCurrentData.hasOwnProperty('id')){   
-               this.form.scheduleData.methodType = this.getConvertMethodType(this.scheduleCurrentData.methodType)
-               this.form.scheduleData.currencyType = this.scheduleCurrentData.currencyType
-               this.form.scheduleData.boundData.nominalValue = this.scheduleCurrentData.boundData.nominalValue,
-               this.form.scheduleData.boundData.commercialValue = this.scheduleCurrentData.boundData.commercialValue,
-               this.form.scheduleData.boundData.years = this.scheduleCurrentData.boundData.years,
-               this.form.scheduleData.boundData.couponFrequency =this.getConvertCouponFrequency(this.scheduleCurrentData.boundData.couponFrequency),
-               this.form.scheduleData.boundData.daysYear = this.scheduleCurrentData.boundData.daysYear,
-               this.form.scheduleData.boundData.typeInterestRate =this.getConvertTypeInterestRate(this.scheduleCurrentData.boundData.typeInterestRate),
-               this.form.scheduleData.boundData.capitalization =this.getConvertCapitalization(this.scheduleCurrentData.boundData.capitalization),
-               this.form.scheduleData.boundData.interestRate = this.toCorrectPercentDecimal((this.scheduleCurrentData.boundData.interestRate)),
-               this.form.scheduleData.boundData.annualDiscountRate = this.toCorrectPercentDecimal((this.scheduleCurrentData.boundData.annualDiscountRate)),
-               this.form.scheduleData.boundData.incomeTax = this.toCorrectPercentDecimal((this.scheduleCurrentData.boundData.incomeTax)),
-               this.form.scheduleData.boundData.issue = (this.scheduleCurrentData.boundData.issue),
-               this.form.scheduleData.boundData.gracePeriod = this.scheduleCurrentData.boundData.gracePeriod,
-               this.form.scheduleData.boundData.typeOfGracePeriod = this.scheduleCurrentData.boundData.typeOfGracePeriod,
-               this.form.scheduleData.initialCostData.premium =this.toCorrectPercentDecimal(this.scheduleCurrentData.initialCostData.premium),
-               this.form.scheduleData.initialCostData.structuring = this.toCorrectPercentDecimal((this.scheduleCurrentData.initialCostData.structuring)),
-               this.form.scheduleData.initialCostData.collocation = this.toCorrectPercentDecimal((this.scheduleCurrentData.initialCostData.collocation)),
-               this.form.scheduleData.initialCostData.floatation = this.toCorrectPercentDecimal((this.scheduleCurrentData.initialCostData.floatation)),
-               this.form.scheduleData.initialCostData.cavali= this.toCorrectPercentDecimal((this.scheduleCurrentData.initialCostData.cavali)),
-               this.updateShowResultsData();
-               this.showResults=true;
-            }
-            else {
-                 this.emptyValuesForm()
-            }
-    },
-    emptyValuesForm(){
-            this.form.scheduleData.methodType = '',
-            this.form.scheduleData.currencyType = '',
-            this.form.scheduleData.boundData.nominalValue = '',
-            this.form.scheduleData.boundData.commercialValue = '',
-            this.form.scheduleData.boundData.years = '',
-            this.form.scheduleData.boundData.couponFrequency ='',
-            this.form.scheduleData.boundData.daysYear = '',
-            this.form.scheduleData.boundData.typeInterestRate = '',
-            this.form.scheduleData.boundData.capitalization ='',
-            this.form.scheduleData.boundData.interestRate = '',
-            this.form.scheduleData.boundData.annualDiscountRate = '',
-            this.form.scheduleData.boundData.incomeTax = '',
-            this.form.scheduleData.boundData.issue = '',
-            this.form.scheduleData.boundData.gracePeriod = '',
-            this.form.scheduleData.boundData.typeOfGracePeriod = '',
-            this.form.scheduleData.initialCostData.premium = '',
-            this.form.scheduleData.initialCostData.structuring = '',
-            this.form.scheduleData.initialCostData.collocation = '',
-            this.form.scheduleData.initialCostData.floatation = '',
-            this.form.scheduleData.initialCostData.cavali= ''
-    },
-    
-    updateShowResultsData(){
-    this.scheduleCurrentData = this.scheduleStore.schedule;
-    this.results.resultsOfCurrentPriceAndProfit = (this.scheduleCurrentData.resultsOfCurrentPriceAndProfit);
-    this.results.resultsOfDecisionRatio = this.scheduleCurrentData.resultsOfDecisionRatio;
-    this.results.profitabilityResults = this.scheduleCurrentData.profitabilityResults;
-    this.results.structuringResults = this.scheduleCurrentData.structuringResults;
-    this.quotasData.quotas = this.scheduleCurrentData.quotas;
-    this.quotasData.quotas = this.quotasData.quotas.map((_quota)=>{
-      var newQuota = {
-          numberOfQuota: _quota.numberOfQuota,
-          scheduledDate:_quota.scheduledDate,
-          typeOfGracePeriod: _quota.typeOfGracePeriod,
-          bond : this.toCorrectValueDecimal(_quota.bond),
-          indexedBond: this.toCorrectValueDecimal(_quota.indexedBond),
-          coupon : this.toCorrectValueDecimal(_quota.coupon),
-          quota : this.toCorrectValueDecimal(_quota.quota),
-          amortization : this.toCorrectValueDecimal(_quota.amortization) ,
-          premium : this.toCorrectPercentDecimal(_quota.premium),
-          shield : this.toCorrectValueDecimal(_quota.shield),
-          emitterStream : this.toCorrectValueDecimal(_quota.emitterStream),
-          emitterFlowWithShield : this.toCorrectValueDecimal(_quota.emitterFlowWithShield),
-          boundHolderFlow :this.toCorrectValueDecimal(_quota.boundHolderFlow),
-          currentFlow : this.toCorrectValueDecimal(_quota.currentFlow),
-          currentFlowPerPeriod :this.toCorrectValueDecimal(_quota.currentFlowPerPeriod),
-          convexityFactor :this.toCorrectValueDecimal(_quota.convexityFactor)    
+      if (this.scheduleCurrentData.hasOwnProperty('id')) {
+        this.form.scheduleData.methodType = this.getConvertMethodType(this.scheduleCurrentData.methodType)
+        this.form.scheduleData.currencyType = this.scheduleCurrentData.currencyType
+        this.form.scheduleData.boundData.nominalValue = this.scheduleCurrentData.boundData.nominalValue,
+            this.form.scheduleData.boundData.commercialValue = this.scheduleCurrentData.boundData.commercialValue,
+            this.form.scheduleData.boundData.years = this.scheduleCurrentData.boundData.years,
+            this.form.scheduleData.boundData.couponFrequency = this.getConvertCouponFrequency(this.scheduleCurrentData.boundData.couponFrequency),
+            this.form.scheduleData.boundData.daysYear = this.scheduleCurrentData.boundData.daysYear,
+            this.form.scheduleData.boundData.typeInterestRate = this.getConvertTypeInterestRate(this.scheduleCurrentData.boundData.typeInterestRate),
+            this.form.scheduleData.boundData.capitalization = this.getConvertCapitalization(this.scheduleCurrentData.boundData.capitalization),
+            this.form.scheduleData.boundData.interestRate = this.toCorrectPercentDecimal((this.scheduleCurrentData.boundData.interestRate)),
+            this.form.scheduleData.boundData.annualDiscountRate = this.toCorrectPercentDecimal((this.scheduleCurrentData.boundData.annualDiscountRate)),
+            this.form.scheduleData.boundData.incomeTax = this.toCorrectPercentDecimal((this.scheduleCurrentData.boundData.incomeTax)),
+            this.form.scheduleData.boundData.issue = this.formatDateForm(this.scheduleCurrentData.boundData.issue),
+            this.form.scheduleData.boundData.gracePeriod = this.scheduleCurrentData.boundData.gracePeriod,
+            this.form.scheduleData.boundData.typeOfGracePeriod = this.scheduleCurrentData.boundData.typeOfGracePeriod,
+            this.form.scheduleData.initialCostData.premium = this.toCorrectPercentDecimal(this.scheduleCurrentData.initialCostData.premium),
+            this.form.scheduleData.initialCostData.structuring = this.toCorrectPercentDecimal((this.scheduleCurrentData.initialCostData.structuring)),
+            this.form.scheduleData.initialCostData.collocation = this.toCorrectPercentDecimal((this.scheduleCurrentData.initialCostData.collocation)),
+            this.form.scheduleData.initialCostData.floatation = this.toCorrectPercentDecimal((this.scheduleCurrentData.initialCostData.floatation)),
+            this.form.scheduleData.initialCostData.cavali = this.toCorrectPercentDecimal((this.scheduleCurrentData.initialCostData.cavali)),
+            this.updateShowResultsData();
+        this.showResults = true;
+      } else {
+        this.emptyValuesForm()
       }
-      return newQuota
-    })
-
     },
-    toCorrectValueDecimal(n){
+    emptyValuesForm() {
+      this.form.scheduleData.methodType = '',
+          this.form.scheduleData.currencyType = '',
+          this.form.scheduleData.boundData.nominalValue = '',
+          this.form.scheduleData.boundData.commercialValue = '',
+          this.form.scheduleData.boundData.years = '',
+          this.form.scheduleData.boundData.couponFrequency = '',
+          this.form.scheduleData.boundData.daysYear = '',
+          this.form.scheduleData.boundData.typeInterestRate = '',
+          this.form.scheduleData.boundData.capitalization = '',
+          this.form.scheduleData.boundData.interestRate = '',
+          this.form.scheduleData.boundData.annualDiscountRate = '',
+          this.form.scheduleData.boundData.incomeTax = '',
+          this.form.scheduleData.boundData.issue = '',
+          this.form.scheduleData.boundData.gracePeriod = '',
+          this.form.scheduleData.boundData.typeOfGracePeriod = '',
+          this.form.scheduleData.initialCostData.premium = '',
+          this.form.scheduleData.initialCostData.structuring = '',
+          this.form.scheduleData.initialCostData.collocation = '',
+          this.form.scheduleData.initialCostData.floatation = '',
+          this.form.scheduleData.initialCostData.cavali = ''
+    },
+
+    updateShowResultsData() {
+      this.scheduleCurrentData = this.scheduleStore.schedule;
+      this.results.resultsOfCurrentPriceAndProfit = (this.scheduleCurrentData.resultsOfCurrentPriceAndProfit);
+      this.results.resultsOfDecisionRatio = this.scheduleCurrentData.resultsOfDecisionRatio;
+      this.results.profitabilityResults = this.scheduleCurrentData.profitabilityResults;
+      this.results.structuringResults = this.scheduleCurrentData.structuringResults;
+      this.quotasData.quotas = this.scheduleCurrentData.quotas;
+      this.quotasData.quotas = this.quotasData.quotas.map((_quota) => {
+        var newQuota = {
+          numberOfQuota: _quota.numberOfQuota,
+          scheduledDate: this.formatDate(_quota.scheduledDate),
+          typeOfGracePeriod: _quota.typeOfGracePeriod,
+          bond: this.toCorrectValueDecimal(_quota.bond),
+          indexedBond: this.toCorrectValueDecimal(_quota.indexedBond),
+          coupon: this.toCorrectValueDecimal(_quota.coupon),
+          quota: this.toCorrectValueDecimal(_quota.quota),
+          amortization: this.toCorrectValueDecimal(_quota.amortization),
+          premium: this.toCorrectValueDecimal(_quota.premium),
+          shield: this.toCorrectValueDecimal(_quota.shield),
+          emitterStream: this.toCorrectValueDecimal(_quota.emitterStream),
+          emitterFlowWithShield: this.toCorrectValueDecimal(_quota.emitterFlowWithShield),
+          boundHolderFlow: this.toCorrectValueDecimal(_quota.boundHolderFlow),
+          currentFlow: this.toCorrectValueDecimal(_quota.currentFlow),
+          currentFlowPerPeriod: this.toCorrectValueDecimal(_quota.currentFlowPerPeriod),
+          convexityFactor: this.toCorrectValueDecimal(_quota.convexityFactor)
+        }
+        return newQuota
+      })
+    },
+    toCorrectValueDecimal(n) {
       return parseFloat(n).toFixed(2);
     },
-    toCorrectPercentDecimal(n){
-      return (parseFloat(n)*100).toFixed(7);
+    toCorrectPercentDecimal(n) {
+      return (parseFloat(n) * 100).toFixed(7);
     },
-     
+
   },
-    created(){
-       let self = this;
-      bus.$on('showAll',()=> {
+  created() {
+    let self = this;
+    bus.$on('showAll', () => {
       self.showResults = false;
     });
   },
-      mounted() {
-      this.scheduleCurrentData=this.scheduleStore.schedule
-      this.initForm();
-   
+  mounted() {
+    this.scheduleCurrentData = this.scheduleStore.schedule
+    this.initForm();
+
   }
 }
 </script>
 <style>
- h2 {
-   text-align:center;
-   background-color: #A5EBE9;
-   padding: 4% 10%;
-   margin: 5% 0%;
-   
- }
+h2 {
+  text-align: center;
+  background-color: #A5EBE9;
+  padding: 4% 10%;
+  margin: 5% 0%;
+
+}
 </style>

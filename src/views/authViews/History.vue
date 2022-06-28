@@ -450,7 +450,8 @@ export default {
     },
     formatDate(date) {
       const fDate = new Date(date);
-      return `${fDate.getDay()}/${fDate.getMonth()}/${fDate.getFullYear()}`;
+      fDate.setDate(fDate.getDate() + 1);
+      return `${fDate.getDate()}/${fDate.getMonth()+1}/${fDate.getFullYear()}`;
     },
     retrieveSchedules() {
       this.schedules = this.authStore.user.schedules;
