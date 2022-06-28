@@ -111,22 +111,6 @@
 
             <v-row>
               <v-col cols="4">
-                <v-subheader class="font-weight-medium">Dias por año</v-subheader>
-              </v-col>
-              <v-col cols="8">
-                <v-text-field
-                    v-model="form.scheduleData.boundData.daysYear"
-                    color="accent"
-                    background-color="blue-grey lighten-5"
-                    solo
-                    :rules="[rules.required,rules.isInt,rules.isPositive]"
-                ></v-text-field>
-              </v-col>
-            </v-row>
-
-
-            <v-row>
-              <v-col cols="4">
                 <v-subheader class="font-weight-medium">Tipo de tasa de interes</v-subheader>
               </v-col>
               <v-col cols="8">
@@ -379,7 +363,7 @@
           </v-col>
         </v-row>
         <v-row justify="center">
-          <v-col class="col-7 col-sm-8  pa-0">
+          <v-col class="col-6 col-sm-4 col-xs-8 pa-2">
             <v-btn
                 v-if="!scheduleStore.loading"
                 color="secondary"
@@ -403,7 +387,7 @@
             </div>
           </v-col>
 
-          <v-col class="col-7 col-sm-8  pa-0">
+          <v-col class="col-6 col-sm-4 col-xs-8 pa-2" >
             <v-dialog
                 v-model="form.dialogCleanForm"
                 persistent
@@ -1150,7 +1134,7 @@ export default {
           commercialValue: parseFloat(this.form.scheduleData.boundData.commercialValue),
           years: parseInt(this.form.scheduleData.boundData.years),
           couponFrequency: this.getCouponFrequency(this.form.scheduleData.boundData.couponFrequency),
-          daysYear: parseInt(this.form.scheduleData.boundData.daysYear),
+          daysYear: 360,
           typeInterestRate: this.getInterestRateType(this.form.scheduleData.boundData.typeInterestRate),
           capitalization: this.getCapitalization(this.form.scheduleData.boundData.capitalization),
           interestRate: (parseFloat(this.form.scheduleData.boundData.interestRate) / 100),
