@@ -362,7 +362,7 @@
           </v-col>
         </v-row>
            <v-row justify="center">
-            <v-col class="col-7 col-sm-8  pa-0" >
+            <v-col class="col-6 col-sm-4 col-xs-8  pa-2" >
               <v-btn
                   v-if="!scheduleStore.loading"
                   color="secondary"
@@ -386,7 +386,7 @@
             </div>
            </v-col>
 
-           <v-col class="col-7 col-sm-8  pa-0" >
+           <v-col class="col-6 col-sm-4 col-xs-8  pa-2" >
             <v-dialog
                 v-model="form.dialogCleanForm"
                 persistent
