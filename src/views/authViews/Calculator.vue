@@ -261,13 +261,12 @@
               </v-col>
             </v-row>
 
-            <v-row>
+            <v-row v-if="isStypePeriod()">
               <v-col cols="4">
-                <v-subheader v-if="isStypePeriod()" class="font-weight-medium">Periodo de gracia</v-subheader>
+                <v-subheader class="font-weight-medium">Periodo de gracia</v-subheader>
               </v-col>
               <v-col cols="8">
                 <v-text-field
-                    v-if="isStypePeriod()"
                     v-model="form.scheduleData.boundData.gracePeriod"
                     color="accent"
                     background-color="blue-grey lighten-5"
@@ -277,6 +276,21 @@
               </v-col>
             </v-row>
 
+            <v-row>
+              <v-col cols="4">
+                <v-subheader class="font-weight-medium">Inflación constante</v-subheader>
+              </v-col>
+              <v-col cols="8">
+                <v-text-field
+                    v-model="form.scheduleData.boundData.inflation"
+                    suffix="%"
+                    color="accent"
+                    background-color="blue-grey lighten-5"
+                    solo
+                    :rules="[rules.required,rules.isInt]"
+                ></v-text-field>
+              </v-col>
+            </v-row>
           </v-col>
           <v-col class="col-12 col-sm-8 col-md-5 mx-auto flex">
             <h2 class="text-center mb-10">Datos de los costes</h2>
@@ -887,6 +901,7 @@ export default {
             issue: '',
             gracePeriod: '',
             typeOfGracePeriod: '',
+            inflation: ''
           },
           initialCostData: {
             premium: '',
@@ -954,6 +969,8 @@ export default {
             value: 'numberOfQuota',
           },
           {text: 'Fecha Programada', value: 'scheduledDate'},
+          {text: 'Inflación', value: 'inflation'},
+          {text: 'Inflación del Periodo', value: 'periodInflation'},
           {text: 'Plazo de Gracia', value: 'typeOfGracePeriod'},
           {text: 'Bono', value: 'bond'},
           {text: 'Bono Indexado', value: 'indexedBond'},
@@ -1168,6 +1185,7 @@ export default {
           issue: this.form.scheduleData.boundData.issue,
           gracePeriod: parseFloat(this.form.scheduleData.boundData.gracePeriod),
           typeOfGracePeriod: this.form.scheduleData.boundData.typeOfGracePeriod,
+          inflation: parseFloat(this.form.scheduleData.boundData.inflation) / 100
         },
         createInitialCostDataResource: {
           premium: (parseFloat(this.form.scheduleData.initialCostData.premium) / 100),
@@ -1195,7 +1213,7 @@ export default {
           const data = this.retrieveData()
           await this.scheduleStore.createSchedule(this.userId, data).then(() => {
             this.updateShowResultsData();
-            this.showResults = false;
+            this.showResults = true;
           })
         }
       } else this.scheduleStore.error = true
@@ -1224,6 +1242,7 @@ export default {
             this.form.scheduleData.boundData.issue = this.formatDateForm(this.scheduleCurrentData.boundData.issue),
             this.form.scheduleData.boundData.gracePeriod = this.scheduleCurrentData.boundData.gracePeriod,
             this.form.scheduleData.boundData.typeOfGracePeriod = this.scheduleCurrentData.boundData.typeOfGracePeriod,
+            this.form.scheduleData.boundData.inflation =  this.toCorrectPercentDecimal(this.scheduleCurrentData.boundData.inflation),
             this.form.scheduleData.initialCostData.premium = this.toCorrectPercentDecimal(this.scheduleCurrentData.initialCostData.premium),
             this.form.scheduleData.initialCostData.structuring = this.toCorrectPercentDecimal((this.scheduleCurrentData.initialCostData.structuring)),
             this.form.scheduleData.initialCostData.collocation = this.toCorrectPercentDecimal((this.scheduleCurrentData.initialCostData.collocation)),
@@ -1251,6 +1270,7 @@ export default {
           this.form.scheduleData.boundData.issue = '',
           this.form.scheduleData.boundData.gracePeriod = '',
           this.form.scheduleData.boundData.typeOfGracePeriod = '',
+          this.form.scheduleData.boundData.inflation = '',
           this.form.scheduleData.initialCostData.premium = '',
           this.form.scheduleData.initialCostData.structuring = '',
           this.form.scheduleData.initialCostData.collocation = '',
@@ -1269,6 +1289,8 @@ export default {
         var newQuota = {
           numberOfQuota: _quota.numberOfQuota,
           scheduledDate: this.formatDate(_quota.scheduledDate),
+          inflation: this.toCorrectValueDecimal(_quota.inflation * 100),
+          periodInflation: this.toCorrectValueDecimal(_quota.periodInflation * 100),
           typeOfGracePeriod: _quota.typeOfGracePeriod,
           bond: this.toCorrectValueDecimal(_quota.bond),
           indexedBond: this.toCorrectValueDecimal(_quota.indexedBond),

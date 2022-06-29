@@ -253,6 +253,23 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
+
+              <v-row>
+                <v-col class="col-5 col-sm-4 pa-0">
+                  <v-subheader class="font-weight-medium">Inflación constante</v-subheader>
+                </v-col>
+
+                <v-col class="col-7 col-sm-8  pa-0">
+                  <v-text-field
+                      suffix="%"
+                      background-color="primary"
+                      color="accent"
+                      solo
+                      readonly
+                      :value="toPercent(schedule.boundData.inflation)"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
             </v-col>
           </v-row>
         </v-col>

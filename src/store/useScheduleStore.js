@@ -22,6 +22,7 @@ const DEFAULT_SCHEDULE = {
         issue: '',
         gracePeriod: 0,
         typeOfGracePeriod: 'S',
+        inflation: 0
     },
     initialCostData: {
         premium: 0,
