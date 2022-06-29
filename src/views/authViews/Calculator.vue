@@ -836,21 +836,23 @@
           ></v-data-table>
         </v-card>
         <br>
-        <div class="text-center">
-           <v-btn       
-              x-large
-              class="py-5 mb-5"
-              align="center"
-              color="success"
-              dark
-             v-on:click="download"
-            >Exportar Cronograma de Pagos en Excel &nbsp;
-            <v-icon dark>
-               mdi-cloud-download
-            </v-icon>
-           </v-btn>
-        </div>
-      </v-container>  
+        <v-row class="text-center">
+          <v-col>
+            <v-btn       
+               x-large
+               class="py-5 mb-5"
+               align="center"
+               color="success"
+               dark
+              v-on:click="download"
+             >Exportar Cronograma &nbsp;<br>de Pagos en Excel &nbsp; &nbsp;
+             <v-icon dark class="ce">
+                mdi-cloud-download
+             </v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-container>
   </v-container>
 </template>
