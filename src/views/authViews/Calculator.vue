@@ -835,8 +835,23 @@
               :sort-desc.sync="quotasData.sortDesc"
           ></v-data-table>
         </v-card>
+        <br>
+        <div class="text-center">
+           <v-btn       
+              x-large
+              class="py-5 mb-5"
+              align="center"
+              color="success"
+              dark
+             v-on:click="download"
+            >Descargar Cronograma en Excel &nbsp;
+            <v-icon dark>
+               mdi-cloud-download
+            </v-icon>
+           </v-btn>
+     </div>
       </v-container>
-
+      
     </v-container>
   </v-container>
 </template>
@@ -845,6 +860,8 @@
 import {useScheduleStore} from "@/store/useScheduleStore";
 import {useAuthStore} from "@/store/useAuthStore";
 import {bus} from '@/main'
+import {writeFile,utils}from "xlsx"
+
 
 export default {
   name: "Calculator",
@@ -987,6 +1004,13 @@ export default {
       const fDate = new Date(date);
       fDate.setDate(fDate.getDate() + 1);
       return `${fDate.getFullYear()}-${fDate.getMonth() + 1}-${fDate.getDate()}`;
+    },
+
+   download : function() {
+        const data = utils.json_to_sheet(this.quotasData.quotas)
+        const wb = utils.book_new()
+        utils.book_append_sheet(wb, data, 'data')
+        writeFile(wb,'Cronograma de Pagos.xlsx')
     },
     getMethodType(method) {
       switch (method) {
@@ -1260,6 +1284,9 @@ export default {
           convexityFactor: this.toCorrectValueDecimal(_quota.convexityFactor)
         }
         return newQuota
+      })
+      this.quotasData.quotas.sort((a,b)=>{
+        return a.numberOfQuota<b.numberOfQuota ? -1 : 1
       })
     },
     toCorrectValueDecimal(n) {
