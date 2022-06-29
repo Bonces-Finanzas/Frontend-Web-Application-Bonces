@@ -389,7 +389,7 @@
             >
               Calcular
             </v-btn>
-            <div
+            <v-overlay :value="scheduleStore.loading"
                 v-else
                 class="flex d-flex"
             >
@@ -398,7 +398,7 @@
                   color="primary"
                   class="mx-auto mb-5"
               ></v-progress-circular>
-            </div>
+            </v-overlay> 
           </v-col>
 
           <v-col class="col-6 col-sm-4 col-xs-8 pa-2" >
@@ -409,7 +409,7 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
-                    color="red darken-1"
+                    color="red lighten-1"
                     class="py-5 mb-5"
                     block
                     align="center"
@@ -428,14 +428,13 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn
-                      color="red darken-1"
-
+                      color="red accent-3"
                       @click="form.dialogCleanForm= false"
                   >
                     Cancelar
                   </v-btn>
                   <v-btn
-                      color="green darken-1"
+                      color="green lighten-1"
                       @click="cleanForm()"
                   >
                     Sí
@@ -949,7 +948,6 @@ export default {
         isValid: false,
         issueDateMenu: false,
         dialogCleanForm: false,
-
       },
 
       results: {
