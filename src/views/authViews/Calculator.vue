@@ -1159,9 +1159,9 @@ export default {
     async onSubmit() {
       if (this.$refs.form.validate()) {
         this.userId = this.authStore.user.id;
-
         if (this.scheduleCurrentData.hasOwnProperty('id')) {
           const updateData = this.convertToUpdateData(this.retrieveData());
+          updateData.updateBoundDataResource.issue = new Date(updateData.updateBoundDataResource.issue)
           await this.scheduleStore.updateSchedule(this.scheduleCurrentData.id, updateData).then(() => {
             this.updateShowResultsData();
             this.showResults = true;
