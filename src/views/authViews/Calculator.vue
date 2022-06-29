@@ -844,14 +844,13 @@
               color="success"
               dark
              v-on:click="download"
-            >Descargar Cronograma en Excel &nbsp;
+            >Exportar Cronograma de Pagos en Excel &nbsp;
             <v-icon dark>
                mdi-cloud-download
             </v-icon>
            </v-btn>
-     </div>
-      </v-container>
-      
+        </div>
+      </v-container>  
     </v-container>
   </v-container>
 </template>
