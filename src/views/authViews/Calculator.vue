@@ -1002,7 +1002,8 @@ export default {
   },
   methods: {
     isStypePeriod() {
-      if (this.form.scheduleData.boundData.typeOfGracePeriod == 'S') {
+      if (this.form.scheduleData.boundData.typeOfGracePeriod === 'S' ||
+          this.form.scheduleData.boundData.typeOfGracePeriod === "") {
         this.form.scheduleData.boundData.gracePeriod = 0
         return false
       }

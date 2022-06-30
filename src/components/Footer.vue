@@ -37,7 +37,7 @@
           I. INFORMACIÓN GENERAL<br>
           En cumplimiento con el deber de información dispuesto en la Ley 34/2002 de Servicios de la Sociedad de la Información y el Comercio Electrónico (LSSI-CE) de 11 de julio, se facilitan a continuación los siguientes datos de información general de este sitio web:<br>
           <br>
-          La titularidad de este sitio web, http://localhost:4200/, (en adelante, Sitio Web) la ostenta: Bonces Team, cuyo representante es: Estefano Sebastian Bran Zapata, y cuyos datos de contacto son:<br>
+          La titularidad de este sitio web, https://bonces.netlify.app/, (en adelante, Sitio Web) la ostenta: Bonces Team, cuyo representante es: Estefano Sebastian Bran Zapata, y cuyos datos de contacto son:<br>
           <br>
           Dirección: Perú<br>
           <br>
@@ -207,7 +207,7 @@
           Derecho a la portabilidad de los datos: En caso de que el tratamiento se efectúe por medios automatizados, el Usuario tendrá derecho a recibir del Responsable del tratamiento sus datos personales en un formato estructurado, de uso común y lectura mecánica, y a transmitirlos a otro responsable del tratamiento. Siempre que sea técnicamente posible, el Responsable del tratamiento transmitirá directamente los datos a ese otro responsable.<br>
           Derecho de oposición: Es el derecho del Usuario a que no se lleve a cabo el tratamiento de sus datos de carácter personal o se cese el tratamiento de los mismos por parte de Bonces.<br>
           Derecho a no ser a no ser objeto de una decisión basada únicamente en el tratamiento automatizado, incluida la elaboración de perfiles: Es el derecho del Usuario a no ser objeto de una decisión individualizada basada únicamente en el tratamiento automatizado de sus datos personales, incluida la elaboración de perfiles, existente salvo que la legislación vigente establezca lo contrario.<br>
-          Así pues, el Usuario podrá ejercitar sus derechos mediante comunicación escrita dirigida al Responsable del tratamiento con la referencia "RGPD-http://localhost:4200/", especificando:<br>
+          Así pues, el Usuario podrá ejercitar sus derechos mediante comunicación escrita dirigida al Responsable del tratamiento con la referencia "RGPD-https://bonces.netlify.app/", especificando:<br>
           <br>
           Nombre, apellidos del Usuario y copia del DNI. En los casos en que se admita la representación, será también necesaria la identificación por el mismo medio de la persona que representa al Usuario, así como el documento acreditativo de la representación. La fotocopia del DNI podrá ser sustituida, por cualquier otro medio válido en derecho que acredite la identidad.<br>
           Petición con los motivos específicos de la solicitud o información a la que se quiere acceder.<br>
