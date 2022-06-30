@@ -12,6 +12,13 @@
     <v-btn
         class="primary--text ml-md-auto"
         text
+        @click="help = true"
+    >
+      Ayuda
+    </v-btn>
+    <v-btn
+        class="primary--text ml-md-5"
+        text
         @click="legalNoticesDialog = true"
     >
       Avisos legales
@@ -23,6 +30,40 @@
     >
       Política de privacidad
     </v-btn>
+
+    <v-dialog
+        v-model="help"
+        max-width="800px"
+    >
+      <v-card>
+        <v-card-title>Ayuda</v-card-title>
+        <v-card-text>
+          <v-carousel v-model="step">
+            <v-carousel-item
+                v-for="(path, i) in images"
+                :key="path"
+            >
+              <v-sheet
+                  height="100%"
+                  tile
+              >
+                <v-img :src="path" alt="imagen"></v-img>
+              </v-sheet>
+            </v-carousel-item>
+          </v-carousel>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+              color="accent"
+              text
+              @click="help = false"
+          >
+            Cerrar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <v-dialog
         v-model="legalNoticesDialog"
@@ -260,6 +301,15 @@ export default {
     return {
       privacyPolicyDialog: false,
       legalNoticesDialog: false,
+      help: false,
+      images: [
+        require('@/assets/paso-1.jpeg'),
+        require('@/assets/paso-2.jpeg'),
+        require('@/assets/paso-3.jpeg'),
+        require('@/assets/paso-4.jpeg'),
+        require('@/assets/paso-5.jpeg')
+      ],
+      step: 0
     }
   }
 }

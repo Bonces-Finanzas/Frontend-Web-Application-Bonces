@@ -126,7 +126,8 @@
               </v-col>
             </v-row>
 
-            <v-row>
+            <v-row v-if="form.scheduleData.boundData.typeInterestRate !== '' &&
+                         form.scheduleData.boundData.typeInterestRate !== 'Efectiva'">
               <v-col cols="4">
                 <v-subheader class="font-weight-medium">Capitalización</v-subheader>
               </v-col>
@@ -1087,7 +1088,7 @@ export default {
         case "Anual":
           return "ANNUAL";
         default:
-          return "Null";
+          return "DAILY";
       }
     },
     getConvertCapitalization(capitalization) {
