@@ -8,7 +8,7 @@
         <div style="max-width: 400px;">
           <h1 class="text-center mb-5">Propósito</h1>
           <p class="text-justify ma-auto text-h6 text-md-h5">
-            Esta página esta diseñada para calcular el flujo de caja e indicadores financieros de un bono corporativo
+            Esta página está diseñada para calcular el flujo de caja e indicadores financieros de un bono corporativo
             desde la perspectiva de un bonista o inversor mediante el método Francés, Americano y Alemán.
           </p>
         </div>
@@ -125,7 +125,40 @@
           </v-card>
         </v-col>
       </v-row>
+
+      <v-row class="col-12 mt-5 mb-3">
+        <h1 class="text-center flex">Profesor</h1>
+        <v-col class="col-12">
+          <p class="text-center">
+            Especial agradecimiento al profesor por los conocimientos brindados para la realización de este proyecto.
+          </p>
+        </v-col>
+      </v-row>
+      <v-row class="col-12 justify-center">
+        <v-col class="col-12 col-sm-6 col-md-4">
+          <v-card flat>
+            <v-img src="../../assets/foto-profe.png"></v-img>
+            <v-card-actions>
+              <a
+                  href="https://www.linkedin.com/in/martin-senmache-36115911/"
+                  target="_blank"
+                  class="secondary--text blue-grey lighten-5 flex text-center"
+                  style="width: auto"
+              >
+                <v-avatar rounded>
+                  <v-img
+                      alt=""
+                      src="../../assets/linkedIn.png"
+                  ></v-img>
+                </v-avatar>
+                José Manuel Martín Senmache Sarmiento
+              </a>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-row>
+
   </v-container>
 </template>
 
