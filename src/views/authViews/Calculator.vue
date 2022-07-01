@@ -981,9 +981,6 @@ export default {
           {text: 'Flujo emisor.', value: 'emitterStream'},
           {text: 'Flujo emisor c/escudo', value: 'emitterFlowWithShield'},
           {text: 'Flujo Bonista', value: 'boundHolderFlow'},
-          {text: 'Flujo Act.', value: 'currentFlow'},
-          {text: 'FA x Plazo.', value: 'currentFlowPerPeriod'},
-          {text: 'FA x Factor p/Plazo convexidad', value: 'convexityFactor'},
         ],
         quotas: []
       },
