@@ -1299,9 +1299,6 @@ export default {
           emitterStream: this.toCorrectValueDecimal(_quota.emitterStream),
           emitterFlowWithShield: this.toCorrectValueDecimal(_quota.emitterFlowWithShield),
           boundHolderFlow: this.toCorrectValueDecimal(_quota.boundHolderFlow),
-          currentFlow: this.toCorrectValueDecimal(_quota.currentFlow),
-          currentFlowPerPeriod: this.toCorrectValueDecimal(_quota.currentFlowPerPeriod),
-          convexityFactor: this.toCorrectValueDecimal(_quota.convexityFactor)
         }
         return newQuota
       })
